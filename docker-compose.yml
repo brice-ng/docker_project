@@ -6,3 +6,34 @@ services:
       - "8000:80"
     volumes:
       - ./html:/usr/share/nginx/html
+
+  # db:
+  #   image: mysql:latest
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: brice
+
+  #   volumes: 
+  #     - ./mysql_data:/var/lib/mysql
+
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin:latest
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     PMA_HOST: db
+  #     MYSQL_ROOT_PASSWORD: brice
+  #   ports:
+  #     - "8090:80"
+
+  sails:
+      volumes:
+        - ./restapi:/app
+      working_dir: /app
+      image: sails:l3mn
+      ports:
+      - "1337:1337"
+      #command: sails new restapi --no-frontend
+      #command: sails lift
+      command: nodemon -L app.js --ignore node_modules --ignore .tmp
