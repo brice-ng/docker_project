@@ -4,6 +4,7 @@
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
+const bcrypt = require("bcryptjs");
 
 module.exports = {
 
@@ -23,11 +24,12 @@ module.exports = {
       type:'string',
       required:true,
       unique: true,
-      minLength: 3
+      minLength: 3,
+      isEmail: true
     },
     adresse:{
       type:'string',
-      required:true,
+      required:false,
       minLength: 3
     },
     entreprise:{
@@ -48,5 +50,11 @@ module.exports = {
 
   },
 
+ // Hachage du mot de passe avant l'enregistrement
+ beforeCreate: async function (user, proceed) {
+  user.password = await bcrypt.hash(user.password, 10);
+  return proceed();
+}
+  
 };
 

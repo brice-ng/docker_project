@@ -1,0 +1,160 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "My API",
+    "version": "1.0.0"
+  },
+  "host": "localhost",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "DefaultError": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "error": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "status": 400,
+        "error": "Invalid Phone"
+      }
+    },
+    "achat": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "achats": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/achat"
+      }
+    },
+    "categorie": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/categorie"
+      }
+    },
+    "evenement": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "evenements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/evenement"
+      }
+    },
+    "user": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "users": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/user"
+      }
+    },
+    "archive": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "archives": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/archive"
+      }
+    }
+  },
+  "parameters": {
+    "whereParam": {
+      "name": "where",
+      "description": "JSON encode WHERE criteria objects. Example: where={\"name\":{\"contains\":\"theodore\"}}",
+      "in": "query",
+      "required": false,
+      "type": "string"
+    },
+    "limitParam": {
+      "name": "limit",
+      "description": "The maximum number of records to send back. Example: limit=100",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "default": 20
+    },
+    "skipParam": {
+      "name": "skip",
+      "description": "The number of records to skip. Example: skip=30",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "default": "0"
+    },
+    "sortParam": {
+      "name": "sort",
+      "description": "The sort order. Example: sort=lastName%20ASC",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "default": "id ASC"
+    },
+    "callbackParam": {
+      "name": "callback",
+      "description": "If specified, a JSONP response will be sent (instead of JSON). This is the name of a client-side javascript function to call, to which results will be passed as the first (and only) argument. Example: ?callback=my_JSONP_data_receiver_fn",
+      "in": "query",
+      "required": false,
+      "type": "string"
+    }
+  },
+  "responses": {
+    "NotFound": {
+      "description": "Entity Not Found",
+      "schema": {
+        "$ref": "#/definitions/DefaultError"
+      }
+    },
+    "ServerError": {
+      "description": "Server Error",
+      "schema": {
+        "$ref": "#/definitions/DefaultError"
+      }
+    },
+    "Forbidden": {
+      "description": "Not Authorized",
+      "schema": {
+        "$ref": "#/definitions/DefaultError"
+      }
+    },
+    "InvalidRequest": {
+      "description": "Invalid Input",
+      "schema": {
+        "$ref": "#/definitions/DefaultError"
+      }
+    }
+  },
+  "tags": []
+}

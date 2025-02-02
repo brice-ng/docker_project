@@ -19,4 +19,20 @@ module.exports.policies = {
 
   // '*': true,
 
+  //'*': 'isAuthenticated',
+  //'/api/auth/signup': true
+
+
+  '*': ['isAuthenticated'], // Protéger toutes les routes par défaut
+
+  // Autoriser les routes d'authentification sans token
+  //'AuthController': true, 
+
+  // Autoriser toutes les routes qui commencent par /api/auth
+  'AuthController': {
+    'signup': true, 
+    'login': true
+  }
+
+
 };

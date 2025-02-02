@@ -8,9 +8,15 @@
  * https://sailsjs.com/anatomy/config/routes-js
  */
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
+
 module.exports.routes = {
 
-    'GET /': { controller: 'HomeController',action: 'index', },
+    'GET /api/': { controller: 'HomeController',action: 'index' },
+    'POST /api/auth/signup': {controller:'AuthController', action:'signup'},
 
+    'POST /api/auth/login': {controller:'AuthController', action:'login'},
 
+    "GET /swagger": swaggerUi.setup(swaggerSpec),
 };

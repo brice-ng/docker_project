@@ -21,7 +21,7 @@
 
 module.exports = {
 
-
+secret: 'mysecret',
   /**************************************************************************
   *                                                                         *
   * Tell Sails what database(s) it should use in production.                *

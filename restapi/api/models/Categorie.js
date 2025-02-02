@@ -26,7 +26,7 @@ module.exports = {
     },
     devise:{
       type:'string',
-      required:true,
+      defaultsTo:"euro"
     },
 
   },

@@ -27,4 +27,12 @@ module.exports.bootstrap = async function() {
   // ]);
   // ```
 
+
+  // if (!sails.hooks.swaggergenerator) {
+  //   sails.log.warn('⚠️  Hook Swagger non détecté');
+  // } else {
+  //   sails.log.info('✅ Hook Swagger chargé avec succès');
+  // }
+  // return done();
+
 };
