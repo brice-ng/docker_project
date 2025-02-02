@@ -29,7 +29,7 @@ module.exports.routes = {
     'POST /api/auth/refresh-token': {controller:'AuthController', action:'refreshToken'},
 
     /**
-     * Route Categorie d'évènement
+     * Route Categorie de billet
      */
 
     'POST /api/categorie/save': {controller:'CategorieController', action:'create'},
@@ -43,6 +43,13 @@ module.exports.routes = {
      * Route Evènement
      */
 
+    'POST /api/evenement/save': {controller:'EvenementController', action:'create'},
+    'GET /api/evenement': {controller:'EvenementController', action:'find'},
+    'GET /api/evenement/:id': {controller:'EvenementController', action:'findOne'},
+    'PUT /api/evenement/update/:id': {controller:'EvenementController', action:'update'},
+    'DELETE /api/evenement/:id': {controller:'EvenementController', action:'delete'},
+
+    
 
 
 

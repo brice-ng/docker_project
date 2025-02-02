@@ -35,9 +35,8 @@ services:
       image: sails:l3mn
       depends_on:
       - db
-
       ports:
       - "1337:1337"
       #command: sails new restapi --no-frontend
-      command: sails lift
-      #command: nodemon -L app.js --ignore node_modules --ignore .tmp
+      #command: sails lift
+      command: nodemon -L app.js --ignore node_modules --ignore .tmp

@@ -12,10 +12,10 @@ module.exports = {
      * @swagger
      * /api/categorie/save:
      *   post:
-     *     summary: Créer une catégorie
+     *     summary: Créer une catégorie de billet
      *     description: Ajoute une nouvelle catégorie à la base de données.
      *     tags:
-     *       - Categories
+     *       - Categories de billet
      *     requestBody:
      *       required: true
      *       content:
@@ -35,6 +35,9 @@ module.exports = {
      *               devise:
      *                 type: string
      *                 example: "euro"
+     *               evenement:
+     *                 type: number
+     *                 example: 1
      *     responses:
      *       201:
      *         description: Catégorie créée avec succès
@@ -43,8 +46,8 @@ module.exports = {
      */
     create: async function (req, res) {
       try {
-        const { libelle, nbplace, montant, devise } = req.allParams();
-        const categorie = await Categorie.create({ libelle, nbplace, montant, devise }).fetch();
+        const { libelle, nbplace, montant, devise,evenement } = req.allParams();
+        const categorie = await Categorie.create({ libelle, nbplace, montant, devise,evenement }).fetch();
         return res.status(201).json(categorie);
       } catch (err) {
         return res.status(500).json(err);
@@ -58,7 +61,7 @@ module.exports = {
      *     summary: Récupérer toutes les catégories
      *     description: Renvoie une liste de toutes les catégories.
      *     tags:
-     *       - Categories
+     *       - Categories de billet
      *     responses:
      *       200:
      *         description: Liste des catégories
@@ -79,7 +82,7 @@ module.exports = {
      *     summary: Récupérer une catégorie spécifique
      *     description: Retourne les détails d'une catégorie en fonction de son ID.
      *     tags:
-     *       - Categories
+     *       - Categories de billet
      *     parameters:
      *       - in: path
      *         name: id
@@ -110,7 +113,7 @@ module.exports = {
      *     summary: Mettre à jour une catégorie
      *     description: Met à jour les informations d'une catégorie existante.
      *     tags:
-     *       - Categories
+     *       - Categories de billet
      *     parameters:
      *       - in: path
      *         name: id
@@ -160,7 +163,7 @@ module.exports = {
      *     summary: Supprimer une catégorie
      *     description: Supprime une catégorie de la base de données.
      *     tags:
-     *       - Categories
+     *       - Categories de billet
      *     parameters:
      *       - in: path
      *         name: id

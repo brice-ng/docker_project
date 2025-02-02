@@ -14,12 +14,18 @@ module.exports = {
       required:true,
       minLength: 3
     },
+
     nbplace:{
       type:'number',
       required:true,
   
     },
-    date_event:{
+    lieu:{
+      type:'string',
+      required:false,
+    },
+
+    date_evenement:{
       type: 'string', columnType: 'datetime',
       required:true,
     },
@@ -28,6 +34,17 @@ module.exports = {
        type: 'string', columnType: 'datetime',
       required:true,
     },
+    
+    description:{
+      type:'string',
+      defaultsTo:"",
+      required:false,
+    },
+
+    Categories: {
+      collection: 'categorie',
+      via: 'evenement'
+    }
 
   },
 

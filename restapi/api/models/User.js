@@ -30,7 +30,6 @@ module.exports = {
     adresse:{
       type:'string',
       required:false,
-      minLength: 3
     },
     entreprise:{
       type:'string',
@@ -47,14 +46,19 @@ module.exports = {
       required:true,
       minLength: 3
     },
+    api_key:{
+      type:'string',
+      required:false,
+    },
 
   },
-
+  
  // Hachage du mot de passe avant l'enregistrement
  beforeCreate: async function (user, proceed) {
   user.password = await bcrypt.hash(user.password, 10);
   return proceed();
 }
   
+
 };
 

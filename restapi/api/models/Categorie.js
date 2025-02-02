@@ -28,6 +28,17 @@ module.exports = {
       type:'string',
       defaultsTo:"euro"
     },
+    description:{
+      type:'string',
+      defaultsTo:"",
+      required:false,
+    },
+
+
+    // Add a reference to categorie
+    evenement: {
+      model: 'Evenement'
+    }
 
   },
 
