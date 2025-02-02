@@ -31,7 +31,8 @@ module.exports.policies = {
   // Autoriser toutes les routes qui commencent par /api/auth
   'AuthController': {
     'signup': true, 
-    'login': true
+    'login': true,
+    'refreshToken':true
   }
 
 

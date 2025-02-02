@@ -260,18 +260,6 @@
       }
     },
     "parameters": {
-      "ModelPKParam-achat": {
-        "in": "path",
-        "name": "_id",
-        "required": true,
-        "schema": {
-          "type": "integer",
-          "format": "int64",
-          "uniqueItems": true,
-          "description": "Note Sails special attributes: autoIncrement"
-        },
-        "description": "The desired **Achat** record's primary key value"
-      },
       "ModelPKParam-categorie": {
         "in": "path",
         "name": "_id",
@@ -283,6 +271,18 @@
           "description": "Note Sails special attributes: autoIncrement"
         },
         "description": "The desired **Categorie** record's primary key value"
+      },
+      "ModelPKParam-achat": {
+        "in": "path",
+        "name": "_id",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "uniqueItems": true,
+          "description": "Note Sails special attributes: autoIncrement"
+        },
+        "description": "The desired **Achat** record's primary key value"
       },
       "ModelPKParam-evenement": {
         "in": "path",
@@ -376,6 +376,77 @@
         }
       }
     },
+    "/api/categorie": {
+      "get": {
+        "summary": "List Categorie (find where)",
+        "description": "Find a list of **Categorie** records that match the specified criteria.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Categorie"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "createdAt,updatedAt,id,libelle,nbplace,montant,devise"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "createdAt,updatedAt,id,libelle,nbplace,montant,devise"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Categorie** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/categorie"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/auth/signup": {
       "post": {
         "summary": "/api/auth/signup",
@@ -403,6 +474,156 @@
           "Auth"
         ],
         "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/auth/refresh-token": {
+      "post": {
+        "summary": "/api/auth/refresh-token",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/categorie/save": {
+      "post": {
+        "summary": "Create Categorie",
+        "description": "Create a new **Categorie** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Categorie"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Categorie** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/categorie"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Categorie instance to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/categorie"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categorie/{_id}": {
+      "get": {
+        "summary": "Get Categorie (find one)",
+        "description": "Look up the **Categorie** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "Categorie"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-categorie"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "createdAt,updatedAt,id,libelle,nbplace,montant,devise"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "createdAt,updatedAt,id,libelle,nbplace,montant,devise"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **Categorie** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/categorie"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **Categorie** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "/api/categorie/{_id}",
+        "tags": [
+          "Categorie"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
         "responses": {
           "200": {
             "description": "The requested resource"
