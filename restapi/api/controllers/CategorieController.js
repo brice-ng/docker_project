@@ -56,9 +56,9 @@ module.exports = {
   
     /**
      * @swagger
-     * /api/categorie:
+     * /api/categorie/all/{id}:
      *   get:
-     *     summary: Récupérer toutes les catégories
+     *     summary: Récupérer toutes les catégories de billet par évènement (ID)
      *     description: Renvoie une liste de toutes les catégories.
      *     tags:
      *       - Categories de billet
@@ -68,7 +68,8 @@ module.exports = {
      */
     find: async function (req, res) {
       try {
-        const categories = await Categorie.find();
+        const { id } = req.params;
+        const categories = await Categorie.find({id});
         return res.json(categories);
       } catch (err) {
         return res.status(500).json(err);

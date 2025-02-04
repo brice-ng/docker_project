@@ -492,87 +492,6 @@
         }
       }
     },
-    "/api/categorie": {
-      "get": {
-        "summary": "List Categorie (find where)",
-        "description": "Find a list of **Categorie** records that match the specified criteria.",
-        "externalDocs": {
-          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
-          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
-        },
-        "tags": [
-          "Categorie"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/AttributeFilterParam"
-          },
-          {
-            "$ref": "#/components/parameters/WhereQueryParam"
-          },
-          {
-            "$ref": "#/components/parameters/LimitQueryParam"
-          },
-          {
-            "$ref": "#/components/parameters/SkipQueryParam"
-          },
-          {
-            "$ref": "#/components/parameters/SortQueryParam"
-          },
-          {
-            "in": "query",
-            "name": "select",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,montant,devise,description,evenement"
-            },
-            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
-          },
-          {
-            "in": "query",
-            "name": "omit",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,montant,devise,description,evenement"
-            },
-            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
-          },
-          {
-            "in": "query",
-            "name": "populate",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "example": "false,evenement"
-            },
-            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Responds with a paged list of **Categorie** records that match the specified criteria",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/categorie"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Resource not found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
     "/api/evenement": {
       "get": {
         "summary": "List Evenement (find where)",
@@ -802,6 +721,96 @@
                 "$ref": "#/components/schemas/evenement"
               }
             }
+          }
+        }
+      }
+    },
+    "/api/categorie/all/{_id}": {
+      "get": {
+        "summary": "List Categorie (find where)",
+        "description": "Find a list of **Categorie** records that match the specified criteria.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Categorie"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "createdAt,updatedAt,id,libelle,nbplace,montant,devise,description,evenement"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "createdAt,updatedAt,id,libelle,nbplace,montant,devise,description,evenement"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,evenement"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          },
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Categorie** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/categorie"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }

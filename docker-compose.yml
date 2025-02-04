@@ -1,22 +1,18 @@
 
 services:
-  web:
-    image: nginx:latest
-    ports:
-      - "8000:80"
-    volumes:
-      - ./html:/usr/share/nginx/html
 
   db:
-    image: mysql:latest
-    container_name: mysql_db
+    image: mariadb:latest
+    container_name: maria_db
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: brice
-
+      MARIADB_ROOT_PASSWORD: brice
+      MARIADB_DATABASE: sails
+      MARIADB_USER: sails
+      MARIADB_PASSWORD: sails
     volumes: 
-      - ./mysql_data:/var/lib/mysql
+      - ./mariadb_data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
@@ -24,7 +20,8 @@ services:
       - db
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: brice
+      PMA_USER: root
+      PMA_PASSWORD: brice
     ports:
       - "8090:80"
 
@@ -33,10 +30,25 @@ services:
         - ./restapi:/app
       working_dir: /app
       image: sails:l3mn
+
       depends_on:
-      - db
+        - db
+      environment:
+        DB_HOST: maria_db
+        DB_USER: sails
+        DB_PASSWORD: sails
+        DB_NAME: sails
       ports:
       - "1337:1337"
       #command: sails new restapi --no-frontend
       #command: sails lift
       command: nodemon -L app.js --ignore node_modules --ignore .tmp
+
+  # nextjs:
+  #   volumes:
+  #     - ./frontend:/app
+  #   working_dir: /app
+  #   image: nextjs
+  #   ports:
+  #   - "3000:3000"
+  #   command: npx create-next-app@latest

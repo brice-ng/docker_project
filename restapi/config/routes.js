@@ -33,7 +33,7 @@ module.exports.routes = {
      */
 
     'POST /api/categorie/save': {controller:'CategorieController', action:'create'},
-    'GET /api/categorie': {controller:'CategorieController', action:'find'},
+    'GET /api/categorie/all/:id': {controller:'CategorieController', action:'find'},
     'GET /api/categorie/:id': {controller:'CategorieController', action:'findOne'},
     'PUT /api/categorie/update/:id': {controller:'CategorieController', action:'update'},
     'DELETE /api/categorie/:id': {controller:'CategorieController', action:'delete'},
