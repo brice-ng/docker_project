@@ -144,7 +144,7 @@ module.exports = {
       const accessToken = jwt.sign({ id: user.id, email: user.email }, "secretkey", { expiresIn: "1h" });
       const refreshToken = jwt.sign({ id: user.id, email: user.email }, "refresh_secret", { expiresIn: "7d" });
 
-      return res.json({ message: "Connexion réussie.", token: accessToken, refreshToken });
+      return res.json({ message: "Connexion réussie.", token: accessToken, refreshToken ,user:user});
     } catch (error) {
       return res.status(500).json(error);
     }

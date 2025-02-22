@@ -104,7 +104,7 @@ export default function Aside(){
         <div className="menu-inner-shadow"/>
         <ul className="menu-inner py-1">
           {/* Dashboard */}
-          <li className= {pathname=="/admin"? "menu-item active":"menu-item "}>
+          <li className={pathname == "/admin" ? "menu-item active" : "menu-item "}>
             <Link href="/admin" className="menu-link">
               <i className="menu-icon tf-icons bx bx-home-circle"/>
               <div data-i18n="Analytics">Tableau de bord</div>
@@ -112,10 +112,17 @@ export default function Aside(){
           </li>
           {/* Layouts */}
 
-          <li className= {pathname=="/admin/evenement"? "menu-item active":"menu-item "} >
+          <li className={pathname == "/admin/evenement" ? "menu-item active" : "menu-item "}>
             <Link href="/admin/evenement" className="menu-link">
-              <i className="menu-icon tf-icons bx bx-home-circle"/>
-              <div data-i18n="Analytics">Evenement</div>
+              <i className="menu-icon tf-icons bx bx-calendar-event"/>
+              <div data-i18n="Analytics">Evènement</div>
+            </Link>
+          </li>
+
+          <li className={pathname == "/admin/categorie" ? "menu-item active" : "menu-item "}>
+            <Link href="/admin/categorie" className="menu-link">
+              <i className="menu-icon tf-icons bx bx-category"/>
+              <div data-i18n="Analytics">Catégorie d'évènement</div>
             </Link>
           </li>
 

@@ -291,6 +291,24 @@
             "items": {
               "$ref": "#/components/schemas/categorie"
             }
+          },
+          "statut": {
+            "type": "string",
+            "default": "Reserve",
+            "enum": [
+              "creation",
+              "lance",
+              "cloture"
+            ],
+            "example": "Reserve"
+          },
+          "user": {
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ]
           }
         }
       },
@@ -359,6 +377,16 @@
           },
           "api_key": {
             "type": "string"
+          },
+          "statut": {
+            "type": "string",
+            "default": "creation",
+            "enum": [
+              "creation",
+              "actif",
+              "inactif"
+            ],
+            "example": "creation"
           }
         }
       }
@@ -525,7 +553,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -535,7 +563,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -545,7 +573,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories"
+              "example": "false,Categories,user"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -815,6 +843,66 @@
         }
       }
     },
+    "/api/evenement/start/{_id}": {
+      "get": {
+        "summary": "/api/evenement/start/{_id}",
+        "tags": [
+          "Evenement"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/evenement/end/{_id}": {
+      "get": {
+        "summary": "/api/evenement/end/{_id}",
+        "tags": [
+          "Evenement"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/categorie/{_id}": {
       "get": {
         "summary": "Get Categorie (find one)",
@@ -930,7 +1018,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -940,7 +1028,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -950,7 +1038,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories"
+              "example": "false,Categories,user"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -2221,7 +2309,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -2231,7 +2319,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -2241,7 +2329,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories"
+              "example": "false,Categories,user"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -2290,7 +2378,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -2300,7 +2388,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -2310,7 +2398,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories"
+              "example": "false,Categories,user"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -2434,6 +2522,33 @@
               }
             },
             "description": "Array of **categorie**'s or array of FK's when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "statut",
+            "schema": {
+              "type": "string",
+              "default": "Reserve",
+              "enum": [
+                "creation",
+                "lance",
+                "cloture"
+              ],
+              "example": "Reserve"
+            }
+          },
+          {
+            "in": "query",
+            "name": "user",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
           }
         ],
         "responses": {
@@ -2557,6 +2672,33 @@
               }
             },
             "description": "Array of **categorie**'s or array of FK's when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "statut",
+            "schema": {
+              "type": "string",
+              "default": "Reserve",
+              "enum": [
+                "creation",
+                "lance",
+                "cloture"
+              ],
+              "example": "Reserve"
+            }
+          },
+          {
+            "in": "query",
+            "name": "user",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
           }
         ],
         "responses": {
@@ -2841,7 +2983,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key"
+              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key,statut"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -2851,7 +2993,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key"
+              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key,statut"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -2900,7 +3042,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key"
+              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key,statut"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -2910,7 +3052,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key"
+              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key,statut"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -3041,6 +3183,20 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "query",
+            "name": "statut",
+            "schema": {
+              "type": "string",
+              "default": "creation",
+              "enum": [
+                "creation",
+                "actif",
+                "inactif"
+              ],
+              "example": "creation"
+            }
           }
         ],
         "responses": {
@@ -3170,6 +3326,20 @@
             "name": "api_key",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "statut",
+            "schema": {
+              "type": "string",
+              "default": "creation",
+              "enum": [
+                "creation",
+                "actif",
+                "inactif"
+              ],
+              "example": "creation"
             }
           }
         ],
@@ -4238,7 +4408,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -4248,7 +4418,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -4258,7 +4428,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories"
+              "example": "false,Categories,user"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -4351,7 +4521,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -4361,7 +4531,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -4371,7 +4541,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories"
+              "example": "false,Categories,user"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -4693,7 +4863,8 @@
             "schema": {
               "type": "string",
               "enum": [
-                "Categories"
+                "Categories",
+                "user"
               ]
             },
             "description": "The name of the association"
@@ -4716,7 +4887,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -4726,7 +4897,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -4742,6 +4913,9 @@
                     "oneOf": [
                       {
                         "$ref": "#/components/schemas/categorie"
+                      },
+                      {
+                        "$ref": "#/components/schemas/user"
                       }
                     ]
                   }
@@ -4791,7 +4965,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key"
+              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key,statut"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -4801,7 +4975,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key"
+              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key,statut"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -4894,7 +5068,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key"
+              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key,statut"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -4904,7 +5078,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key"
+              "example": "createdAt,updatedAt,id,nom,prenom,email,adresse,entreprise,secteur_activite,password,api_key,statut"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }

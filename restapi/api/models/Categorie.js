@@ -34,8 +34,7 @@ module.exports = {
       required:false,
     },
 
-
-    // Add a reference to categorie
+    // Add a reference to evenement
     evenement: {
       model: 'Evenement'
     }

@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import 'primeicons/primeicons.css';
+import "./css/core.css";
+import { PrimeReactProvider } from "primereact/api";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
 
-
-import  "bootstrap/dist/css/bootstrap.min.css"
+//import  "bootstrap/dist/css/bootstrap.min.css"
 
 import "./css/demo.css";
 import "./css/theme-default.css";
-import "./css/core.css";
+
 import "./fonts/boxicons.css";
 import "./css/page-auth.css";
 
-import { PrimeReactProvider } from "primereact/api";
-import "primereact/resources/themes/bootstrap4-dark-blue/theme.css";
 
 
 

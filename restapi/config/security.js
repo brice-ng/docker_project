@@ -34,6 +34,15 @@ module.exports.security = {
   //   allowCredentials: false,
   // },
 
+  cors: {
+
+    allRoutes: true,
+    allowOrigins: '*', // Permet les requêtes de tous les domaines (remplace par 'http://localhost:4100' si nécessaire)
+    allowCredentials: false,
+    allowRequestHeaders: 'content-type, authorization', // Inclure "authorization" pour le Bearer Token
+    allowRequestMethods: 'GET, POST, PUT, DELETE, OPTIONS'
+
+  },
 
   /****************************************************************************
   *                                                                           *

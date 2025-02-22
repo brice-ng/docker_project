@@ -50,6 +50,8 @@ module.exports = {
      */
         create: async function (req, res) {
             try {
+
+              const userId = {};
               const { libelle, nbplace, date_limite,date_evenement,description,lieu } = req.allParams();
               const evenement = await Evenement.create({ libelle, nbplace, date_limite, date_evenement, description, lieu }).fetch();
               return res.status(201).json(evenement);
@@ -186,8 +188,80 @@ module.exports = {
             } catch (err) {
               return res.status(500).json(err);
             }
-          }
+          },
+                  
+
+          /**
+           * @swagger
+           * /api/evenement/start/{id}:
+           *   get:
+           *     summary: Démarrer la vente des billet d'un évènement
+           *     description: Mise en vente des billet d'un évènement existant.
+           *     tags:
+           *       - Evenements
+           *     parameters:
+           *       - in: path
+           *         name: id
+           *         required: true
+           *         schema:
+           *           type: integer
+           *     responses:
+           *       200:
+           *         description: évènement démarré
+           *       404:
+           *         description: évènement non trouvée
+           */
+
+          start: async function (req, res) {
+            try {
+              const { id } = req.params;
+              const updatedevenement = await Evenement.updateOne({ id }).set({statut:'lance'});
+              if (!updatedevenement){
+                return res.notFound({ error: "évènement non trouvé" });
+              }else{
+                return res.json(updatedevenement);
+              } 
+              
+            } catch (err) {
+              return res.status(500).json(err);
+            }
+          },
           
+         /**
+           * @swagger
+           * /api/evenement/end/{id}:
+           *   get:
+           *     summary: Clôturer la vente des billet d'un évènement
+           *     description: Mise en arrêt de la vente des billet d'un évènement manuellement.
+           *     tags:
+           *       - Evenements
+           *     parameters:
+           *       - in: path
+           *         name: id
+           *         required: true
+           *         schema:
+           *           type: integer
+           *     responses:
+           *       200:
+           *         description: évènement clôturé
+           *       404:
+           *         description: évènement non trouvée
+           */
+          cloturer: async function (req, res) {
+          try {
+            const { id } = req.params;
+            const updatedevenement = await Evenement.updateOne({ id }).set({statut:'cloture'});
+            if (!updatedevenement){
+              return res.notFound({ error: "évènement non trouvé" });
+            }else{
+              return res.json(updatedevenement);
+            } 
+            
+          } catch (err) {
+            return res.status(500).json(err);
+          }
+        },
+
 
 };
 

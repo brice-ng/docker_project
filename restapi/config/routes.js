@@ -13,6 +13,10 @@ const swaggerSpec = require("./swagger");
 
 module.exports.routes = {
 
+    'OPTIONS /*': { 
+        cors: true 
+    },
+
     /**
      * Route correspondant à swagger pour la documentation de l'API
      */
@@ -48,6 +52,8 @@ module.exports.routes = {
     'GET /api/evenement/:id': {controller:'EvenementController', action:'findOne'},
     'PUT /api/evenement/update/:id': {controller:'EvenementController', action:'update'},
     'DELETE /api/evenement/:id': {controller:'EvenementController', action:'delete'},
+    'GET /api/evenement/start/:id': {controller:'EvenementController', action:'start'},
+    'GET /api/evenement/end/:id': {controller:'EvenementController', action:'cloturer'},
 
     
 

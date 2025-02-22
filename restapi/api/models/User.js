@@ -50,6 +50,11 @@ module.exports = {
       type:'string',
       required:false,
     },
+    statut: {
+      type: 'string',
+      isIn: ['creation', 'actif', 'inactif'],
+      defaultsTo: 'creation'
+    },
 
   },
   
@@ -57,8 +62,12 @@ module.exports = {
  beforeCreate: async function (user, proceed) {
   user.password = await bcrypt.hash(user.password, 10);
   return proceed();
-}
+},
   
+
+customToJSON: function () {
+  return _.omit(this, ["password"]);
+},
 
 };
 

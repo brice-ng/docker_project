@@ -1,24 +1,24 @@
 "use client";
 
 import {Button} from "primereact/button";
-import Link from "next/link";
-import {useRouter} from "next/navigation";
-import {useRef, useState} from "react";
-import {authService} from "@/app/services/auth.service";
-import {UserHelper} from "@/app/helpers/user";
-import {InputText} from "primereact/inputtext";
 import {Password} from "primereact/password";
+import {useRef, useState} from "react";
+import {InputText} from "primereact/inputtext";
+import {authService} from "@/app/services/auth.service";
+import {useRouter} from "next/navigation";
 import {Toast} from "primereact/toast";
+import Link from "next/link";
 
 
+export default function register() {
 
-export default function Home() {
-
-    let login = {
+    let regist = {
+        nom:"",
+        prenom:"",
         email:"",
-        password:""
+        password:"",
+        confirmPassword:""
     };
-
 
     let style={
         iconField: {
@@ -33,48 +33,45 @@ export default function Home() {
             style: { width: "100%" },
         },
     };
-
     const router = useRouter()
 
-    const [userlogin, setValue] = useState(login);
+    const [register, setValue] = useState(regist);
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...userlogin, [e.target.name]: e.target.value });
+        setValue({ ...register, [e.target.name]: e.target.value });
     };
-
     const toast = useRef(null);
-    const onLogin = async (e: React.FormEvent) => {
+    const onRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        console.log("Données du formulaire :", userlogin);
+        console.log("Données du formulaire :", register);
 
-        await authService.login(userlogin).then(data => {
-                //data
-                setIsLoading(false);
-                toast.current.show({ severity: 'success', summary: 'Message', detail: 'Accès autorisé',life: 2000 });
-                UserHelper.connect(data)
-                setTimeout(() => {
-                    router.push('/admin');
-                    //console.log("Voici le premier message");
-                }, 1500);
+        await authService.register(register).then(data => {
+            //data
+            toast.current.show({ severity: 'info', summary: 'Message', detail: 'Inscription effectuée avec succès',life: 5000 });
+            setIsLoading(false);
+            setTimeout(() => {
+                router.push('/auth/login');
+                //console.log("Voici le premier message");
+            }, 5000);
 
-                console.log(data);
-            },
-            (e)=>{
-                setIsLoading(false);
-                console.log("up")
-                console.log(e)
-                toast.current.show({ severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue',life: 5000 });
-            });
+            console.log(data);
+        },
+        (e)=>{
+            setIsLoading(false);
+            console.log("up")
+            console.log(e)
+            toast.current.show({ severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue',life: 5000 });
+        });
 
         //alert("Formulaire soumis !");
     };
 
 
-    return (
+  return (
       <>
-          <Toast ref={toast} position="bottom-center" />
+          <Toast ref={toast} position="center" />
           <div className="container-xxl">
               <div className="authentication-wrapper authentication-basic container-p-y">
                   <div className="authentication-inner">
@@ -168,35 +165,52 @@ export default function Home() {
                               {/* /Logo */}
                               <h4 className="mb-2 text-center">Bienvenu chez easyTicket</h4>
                               <p className="mb-4 text-center">
-                                  Veuillez vous connecter à votre compte
+                                  Debutez par la création de votre compte
                               </p>
-                              <form id="formAuthentication" className="mb-3" onSubmit={onLogin}>
+                              <form id="formAuthentication" className="mb-3" onSubmit={onRegister}>
+
+                                  <div className="mb-3">
+                                      <label htmlFor="nom">Nom</label>
+                                      <InputText pt={style} id="nom" name="nom" value={register.nom}
+                                                 onChange={handleChange} required/>
+                                  </div>
+
+                                  <div className="mb-3">
+                                      <label htmlFor="prenom">Prénom</label>
+                                      <InputText pt={style} id="prenom" name="prenom" value={register.prenom}
+                                                 onChange={handleChange} required/>
+                                  </div>
 
                                   <div className="mb-3">
                                       <label htmlFor="email">Email</label>
-                                      <InputText pt={style} id="email" name="email" value={userlogin.email}
+                                      <InputText pt={style} id="email" name="email" value={register.email}
                                                  onChange={handleChange} required/>
                                   </div>
 
                                   <div className="mb-3">
                                       <label htmlFor="password">Mot de passe</label>
-                                      <Password pt={style} inputId="password" name="password" value={userlogin.password}
+                                      <Password pt={style} inputId="password" name="password" value={register.password}
                                                 onChange={handleChange}
                                                 feedback={false} toggleMask required/>
                                   </div>
 
                                   <div className="mb-3">
-                                      <Button className="w-100" type="submit" label={!isLoading ? "Connexion" : ""}
-                                              disabled={isLoading} loading={isLoading}/>
+                                      <label htmlFor="confirmPassword">Confirmation de mot de passe</label>
+                                      <Password pt={style} inputId="confirmPassword" name="confirmPassword"
+                                                value={register.confirmPassword} onChange={handleChange}
+                                                feedback={false} toggleMask required/>
+                                  </div>
+
+                                  <div className="mb-3">
+                                      <Button className="w-100" type="submit" label={!isLoading ? "Inscription" : ""} disabled={isLoading}  loading={isLoading} />
                                   </div>
 
                               </form>
                               <p className="text-center">
-                                  <span>Vous n'avez pas de compte?</span>
-                                  <Link href="/auth/register">
-                                      <span>Créer un compte</span>
+                                  <span>Vous avez déjà un compte?</span>
+                                  <Link href="/auth/login">
+                                      <span>Connexion</span>
                                   </Link>
-
                               </p>
                           </div>
                       </div>
@@ -207,5 +221,5 @@ export default function Home() {
 
 
       </>
-    );
+  );
 }

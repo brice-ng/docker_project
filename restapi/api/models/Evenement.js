@@ -44,6 +44,17 @@ module.exports = {
     Categories: {
       collection: 'categorie',
       via: 'evenement'
+    },
+
+    statut: {
+      type: 'string',
+      isIn: ['creation', 'lance', 'cloture'],
+      defaultsTo: 'Reserve'
+    },
+
+    // Add a reference to evenement
+    user: {
+      model: 'User'
     }
 
   },
