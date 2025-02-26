@@ -5,7 +5,13 @@ import Aside from "@/app/components/aside";
 import Nav from "@/app/components/nav";
 import Footer from "@/app/components/footer";
 
-export default function Home() {
+export default function Billeterie() {
+
+
+
+
+
+
   return (
       <>
         <div className="layout-wrapper layout-content-navbar">

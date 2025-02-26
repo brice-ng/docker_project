@@ -1,0 +1,28 @@
+
+
+.side_width{
+    width: 60%;
+}
+
+.side_footer{
+    display: inline;
+    position: absolute;
+    bottom: 15px;
+    width: 93%;
+}
+
+.footer_btn{
+    position: relative;
+}
+
+
+.content-categorie{
+    /*display: flex;*/
+}
+
+.input-number-side{
+    float: right;
+}
+.input-number-side input{
+    width: 50px!important;
+}

@@ -21,11 +21,15 @@ import {InputText} from "primereact/inputtext";
 import {InputTextarea} from "primereact/inputtextarea";
 import { ConfirmDialog } from 'primereact/confirmdialog'; // For <ConfirmDialog /> component
 import { confirmDialog } from 'primereact/confirmdialog';
-import {useRouter} from "next/navigation"; // For confirmDialog method
+import {useParams} from "next/navigation";
+import {categorieService} from "@/app/services/categorie.service"; // For confirmDialog method
 
 
-export default function evenement() {
-    const [evenements=[], setEvenements] = useState([]);
+export default function categorie() {
+    const [categories=[], setCategories] = useState([]);
+    const param = useParams();
+    const event_id = param.slug;
+
     let style={
         iconField: {
             root: {
@@ -39,33 +43,47 @@ export default function evenement() {
             style: { width: "100%" },
         },
     };
-    const router = useRouter()
 
-
-    let event = {
+    let category = {
         id:0,
         libelle: "",
-        lieu: "",
         nbplace: 0,
-        date_limite: "",
-        date_evenement: "",
-        description: ""
+        montant: 0,
+        description: "",
+        evenement:event_id
     }
+
+    let evenemet ={
+                    createdAt: 0,
+                    updatedAt: 0,
+                    id: 0,
+                    libelle: "d",
+                    nbplace: 0,
+                    lieu: "",
+                    date_evenement: "",
+                    date_limite: "",
+                    description: "",
+                    statut: "",
+                    user: 0
+                };
+
+
     const toast = useRef(null);
 
-    const [evenement, setValue] = useState(event);
+    const [categorie, setValue] = useState(category);
+    const [evenement, setEvenement] = useState(evenemet);
+
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isUpdating, setIsUpdating] = useState<boolean>(false)
 
     const [visible, setVisible] = useState(false);
-    const [addCategorieVisible, setAddCategorieVisible] = useState(false);
 
     const user = UserHelper.getUser();
     const { handleSubmit, control, reset } = useForm();
     const [date, setDate] = useState(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...evenement, [e.target.name]: e.target.value });
+        setValue({ ...categorie, [e.target.name]: e.target.value });
     };
 
 
@@ -75,55 +93,66 @@ export default function evenement() {
 
         //e.preventDefault();
         setIsLoading(true);
-        evenement.date_evenement = formatDateWithMicroseconds(new Date(evenement.date_evenement));
-        evenement.date_limite = formatDateWithMicroseconds(new Date(evenement.date_limite))
 
         if(!isUpdating){
-            //console.log(evenement);
-            evenementService.save(evenement).then(data=>{
-                console.log(data)
-                setIsLoading(false);
+            console.log("save");
+            console.log(categorie);
 
-                if(data!=null){
-                    setEvenements([...evenements,data])
-                    toast.current.show({ severity: 'success', summary: 'Message', detail: 'Evènement enregistré avec succès',life: 5000 });
-                    setVisible(false);
-                }else{
-                    console.log("erreur");
-                }
+            categorieService.save(categorie).then(data=>{
+                    console.log(data)
+                    setIsLoading(false);
+
+                    if(data!=null){
+                        setCategories([...categories,data])
+                        toast.current.show({ severity: 'success', summary: 'Message', detail: 'Catégorie enregistré avec succès',life: 5000 });
+                        setVisible(false);
+                    }else{
+                        console.log("erreur");
+                    }
 
                 },
                 ()=>{
                     console.log("error post request");
                 });
         }else{
-            console.log(evenement)
-            delete evenement.statut;
-            evenementService.update(evenement,evenement.id).then(data=>{
-                console.log(data);
-                loadEvenements();
-                toast.current.show({ severity: 'success', summary: 'Message', detail: 'Evènement mise à jour avec succès',life: 5000 });
-                setVisible(false);
-                setIsLoading(false);
-            },
-            (err)=>{
-                console.log("erreur du PUT request");
-                console.log(err);
-            });
+            console.log(categorie)
+
+            categorieService.update(categorie,categorie.id).then(data=>{
+                    console.log(data);
+                    loadCategories();
+                    toast.current.show({ severity: 'success', summary: 'Message', detail: 'Catégorie mise à jour avec succès',life: 5000 });
+                    setVisible(false);
+                    setIsLoading(false);
+                },
+                (err)=>{
+                    console.log("erreur du PUT request");
+                    console.log(err);
+                });
         }
     };
 
     useEffect(() => {
         //console.log("les uses effects")
-        loadEvenements();
+
+        evenementService.getByid(event_id).then(even=>{
+            setEvenement(even);
+            loadCategories();
+        });
+
+        //console.log("slug route");
+        //console.log(event_id);
+        //console.log("slug id == "+router.query.slug)
+
+
     }, []);
 
-    const loadEvenements = async () => {
-        evenementService.get().then(data=>{
+
+    const loadCategories = async () => {
+
+        categorieService.get(event_id).then(data=>{
                 if(data){
                     //console.log("set data")
-                    setEvenements(data);
-
+                    setCategories(data);
                     console.log(data);
                 }
                 //console.log(data)
@@ -131,6 +160,7 @@ export default function evenement() {
             (err)=>{
                 console.log(err)
             });
+
     };
 
     const footerContent = (
@@ -140,11 +170,11 @@ export default function evenement() {
         </div>
     );
 
-    const dateEventBodyTemplate = (rowData) => {
-        const formattedDate = format(new Date(rowData.date_evenement), "dd/MM/yyyy HH:mm", { locale: fr });
+    const updateDateBodyTemplate = (rowData) => {
+        const formattedDate = format(new Date(rowData.updatedAt), "dd/MM/yyyy HH:mm", { locale: fr });
         //console.log(formattedDate);
         return (
-                <span>{formattedDate}</span>
+            <span>{formattedDate}</span>
         );
     };
 
@@ -156,25 +186,20 @@ export default function evenement() {
         );
     };
 
-    const editEvenenemt =async (dataEvent)=>{
-        let event = dataEvent;
-        setValue(event);
-        event.date_evenement = new Date(event.date_evenement);
-        event.date_limite = new Date(event.date_limite);
-        setValue(event);
+    const editCategotie =async (dataEvent)=>{
+        let categ = dataEvent;
+        setValue(categ);
+        /*
+            event.date_evenement = new Date(event.date_evenement);
+            event.date_limite = new Date(event.date_limite);
+
+        */
+        setValue(categ);
         setVisible(true);
         setIsUpdating(true);
 
         console.log(dataEvent);
     };
-
-    const viewCategory =async (dataEvent)=>{
-        //let event = dataEvent;
-        console.log(dataEvent);
-        router.push(`/admin/categorie/${dataEvent.id}`);
-
-    };
-
 
     const accept = () => {
         toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
@@ -186,7 +211,7 @@ export default function evenement() {
 
     const confirmDelete = (dataEvent) => {
         confirmDialog({
-            message: 'Voulez vous supprimer cet évènement?',
+            message: 'Voulez vous supprimer cette catégorie?',
             header: 'Confirmation',
             icon: 'pi pi-info-circle',
             defaultFocus: 'reject',
@@ -198,8 +223,8 @@ export default function evenement() {
             accept:()=>{
 
                 evenementService.delete(dataEvent.id).then(data=>{
-                    setEvenements(evenements.filter(x=>x.id!=dataEvent.id));
-                    toast.current.show({ severity: 'info', summary: 'Supprimer', detail: 'Evènement supprimé avec succès', life: 3000 });
+                    setCategories(categories.filter(x=>x.id!=dataEvent.id));
+                    toast.current.show({ severity: 'info', summary: 'Supprimer', detail: 'Catégorie supprimé avec succès', life: 3000 });
 
                 },(err)=>{
                     toast.current.show({ severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la suppression', life: 3000 });
@@ -218,9 +243,7 @@ export default function evenement() {
 
         return (
             <>
-                <Button icon="pi pi-chevron-circle-down" onClick={()=>viewCategory(rowData)} rounded text severity="primary" />
-                <Button icon="pi pi-play" rounded text severity="success" />
-                <Button icon="pi pi-pencil" onClick={() =>editEvenenemt(rowData)} rounded text aria-label="Filter" />
+                <Button icon="pi pi-pencil" onClick={() =>editCategotie(rowData)} rounded text />
                 <Button icon="pi pi-trash" onClick={()=>confirmDelete(rowData)} rounded text severity="danger" />
             </>
         );
@@ -246,24 +269,41 @@ export default function evenement() {
                             {/* Content */}
                             <div className="container-xxl flex-grow-1 container-p-y">
                                 <div className="row">
-                                    <div className="col-sm-5">
-                                        <Button className="mb-2" label="Nouvelle évènement" icon="pi pi-plus" iconPos="right" onClick={() => {setVisible(true);setValue(event);setIsUpdating(false)}} />
+                                    <Card>
+                                        <div className="row">
+                                            <span className="col-4">
+                                                <b>Evènement :</b>{evenement.libelle}
+                                            </span>
+                                            <span className="col-4">
+                                                <b>Nombre de place :</b>{evenement.nbplace}
+                                            </span>
+
+                                            <span className="col-4">
+                                                <b>Date de modification :</b>{ format(new Date(evenement.updatedAt), "dd/MM/yyyy à HH:mm", { locale: fr })}
+                                            </span>
+
+                                        </div>
+
+                                    </Card>
+
+                                </div>
+
+                                <div className="row mt-2">
+                                <div className="col-sm-5">
+                                        <Button className="mb-2" label="Nouvelle catégorie" icon="pi pi-plus" iconPos="right" onClick={() => {setVisible(true);setValue(category);setIsUpdating(false)}} />
                                     </div>
 
                                 </div>
 
                                 <div className="row mt-4">
                                     <Card>
-                                        <DataTable value={evenements} scrollable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} tableStyle={{ minWidth: '50rem' }}
+                                        <DataTable value={categories} scrollable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} tableStyle={{ minWidth: '50rem' }}
                                                    columnResizeMode="expand" resizableColumns paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                                    emptyMessage="Pas d'évèmenent sauvegardé." currentPageReportTemplate="Affiche {first} to {last} sur {totalRecords} entrées">
                                             <Column field="libelle" header="Libelle"></Column>
                                             <Column field="nbplace" header="Nombre de place"></Column>
-                                            <Column field="lieu" header="Lieu"></Column>
-                                            <Column field="date_evenement" header="Date" body={dateEventBodyTemplate} ></Column>
                                             <Column field="createdAt" header="Date de création" body={createDateBodyTemplate}></Column>
-                                            <Column  header="Catégories"></Column>
-
+                                            <Column field="updatedAt" header="Date de modification" body={updateDateBodyTemplate} ></Column>
                                             <Column  header="Actions" body={actionTemplate}></Column>
                                         </DataTable>
                                     </Card>
@@ -286,7 +326,7 @@ export default function evenement() {
 
 
 
-            <Dialog header={isUpdating?"Modifier un évènement":"Ajouter un évènement"} visible={visible} onHide={() => {
+            <Dialog header={isUpdating?"Modifier une catégorie":"Ajouter une catégorie"} visible={visible} onHide={() => {
                 if (!visible) return;
                 setVisible(false);
             }}
@@ -294,84 +334,38 @@ export default function evenement() {
 
                 <form>
                     <div className="row">
-                        <div className="mb-3 col-6">
-                            <label htmlFor="libelle">Libellé</label>
-                            <InputText pt={style} id="libelle" name="libelle" value={evenement.libelle} onChange={handleChange} required/>
-                        </div>
+                        <div className="col-6">
 
-                        <div className="mb-3 col-6">
-                            <label htmlFor="nbplace">Nombre de place</label>
-                            <InputText pt={style} id="nbplace" name="nbplace" value={evenement.nbplace} onChange={handleChange} required/>
-                        </div>
-
-                        <div className="mb-3 col-6">
-                            <label htmlFor="lieu">Adresse</label>
-                            <InputText pt={style} id="lieu" name="lieu" value={evenement.lieu} onChange={handleChange} required/>
-                        </div>
-
-
-                        <div className="mb-3 col-6">
-                            <label htmlFor="date">Date prévue de l'évènement</label>
-                            <div>
-                                <Calendar style={{width: "100%"}} value={evenement.date_evenement} id="date_evenement" name="date_evenement"  onChange={handleChange}
-                                          dateFormat="dd/mm/yy" showTime hourFormat="24"/>
+                            <div className="mb-3">
+                                <label htmlFor="libelle">Libellé</label>
+                                <InputText pt={style} id="libelle" name="libelle" value={categorie.libelle}
+                                           onChange={handleChange} required/>
                             </div>
-                        </div>
 
-                        <div className="mb-3 col-6">
-                            <label htmlFor="date_limite" className="form-label">Date limite de vente</label>
-                            <div>
-                                <Calendar style={{width: "100%"}} value={evenement.date_limite} id="date_limite" name="date_limite" onChange={handleChange} dateFormat="dd/mm/yy" showTime hourFormat="24"/>
+                            <div className="mb-3">
+                                <label htmlFor="nbplace">Nombre de place</label>
+                                <InputText pt={style} id="nbplace" name="nbplace" value={categorie.nbplace}
+                                           onChange={handleChange} required/>
                             </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="montant">Montant</label>
+                                <InputText pt={style} id="montant" name="montant" value={categorie.montant}
+                                           onChange={handleChange} required/>
+                            </div>
+
                         </div>
 
                         <div className="mb-3 col-6">
                             <label htmlFor="description" className="form-label">Description</label>
-                            <InputTextarea pt={style} value={evenement.description} id="description" name="description" onChange={handleChange}  rows={5} cols={30} required />
+                            <InputTextarea pt={style} value={categorie.description} id="description" name="description"
+                                           onChange={handleChange} rows={5} cols={30} required/>
                         </div>
 
                     </div>
 
                 </form>
             </Dialog>
-
-
-
-
-            {/*for add catégorie */}
-            <Dialog header={isUpdating?"Modifier une catégorie":"Ajouter une catégorie"} visible={addCategorieVisible} onHide={() => {
-                if (!addCategorieVisible) return;
-                setAddCategorieVisible(false);
-            }}
-                    style={{width: '90vw'}} breakpoints={{'960px': '75vw', '641px': '100vw'}}>
-
-                <form>
-                    <div className="row">
-                        <div className="mb-3 col-6">
-                            <label htmlFor="libelle">Libellé</label>
-                            <InputText pt={style} id="libelle" name="libelle" value={evenement.libelle} onChange={handleChange} required/>
-                        </div>
-
-                        <div className="mb-3 col-6">
-                            <label htmlFor="nbplace">Nombre de place</label>
-                            <InputText pt={style} id="nbplace" name="nbplace" value={evenement.nbplace} onChange={handleChange} required/>
-                        </div>
-
-                        <div className="mb-3 col-6">
-                            <label htmlFor="lieu">Montant</label>
-                            <InputText pt={style} id="lieu" name="lieu" value={evenement.lieu} onChange={handleChange} required/>
-                        </div>
-
-                        <div className="mb-3 col-6">
-                            <label htmlFor="description" className="form-label">Description</label>
-                            <InputTextarea pt={style} value={evenement.description} id="description" name="description" onChange={handleChange}  rows={5} cols={30} required />
-                        </div>
-
-                    </div>
-
-                </form>
-            </Dialog>
-
 
         </>
     );

@@ -119,12 +119,12 @@ export default function Aside(){
             </Link>
           </li>
 
-          <li className={pathname == "/admin/categorie" ? "menu-item active" : "menu-item "}>
+          {/* <li className={pathname == "/admin/categorie" ? "menu-item active" : "menu-item "}>
             <Link href="/admin/categorie" className="menu-link">
               <i className="menu-icon tf-icons bx bx-category"/>
               <div data-i18n="Analytics">Catégorie d'évènement</div>
             </Link>
-          </li>
+          </li> */}
 
 
           {/*<li className="menu-item">

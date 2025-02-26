@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import {UserHelper} from "@/app/helpers/user";
 
@@ -9,6 +10,7 @@ const axiosInstance = axios.create({
 // Ajouter un intercepteur de requêtes pour injecter le token automatiquement
 axiosInstance.interceptors.request.use(
     (config) => {
+
         const user = UserHelper.getUser();
         const token = user.token; // Récupérer le token depuis les cookies
         console.log(user);
@@ -27,9 +29,14 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+
+        if (error.response?.status === 401 && typeof window !== "undefined") {
             console.warn("Token expiré ou non valide !");
             // Gérer l'expiration du token (ex: redirection vers login)
+
+            //router.push('/auth/login');
+            window.location.href = "/auth/login";
+
         }
         return Promise.reject(error);
     }

@@ -54,7 +54,7 @@ export default function register() {
             setTimeout(() => {
                 router.push('/auth/login');
                 //console.log("Voici le premier message");
-            }, 5000);
+            }, 2000);
 
             console.log(data);
         },
