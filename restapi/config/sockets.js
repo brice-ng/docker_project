@@ -27,9 +27,25 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  // transports: [ 'websocket' ],
+  transports: ["websocket", "polling"],
+
+  //  cors: {
+  //   allowOrigins: ["http://localhost:4100"],
+  // },
 
 
+  //onlyAllowOrigins: "*", 
+
+  onlyAllowOrigins: ['http://localhost:3000', 'http://localhost:4100'],
+/*
+  beforeConnect: function(handshake, proceed) {
+    // Autoriser l'origine http://localhost:4100
+    if (handshake.headers.origin === "http://localhost:4100") {
+      return proceed();
+    }
+    return proceed(new Error("CORS policy blocked the connection."));
+  }
+*/
   /***************************************************************************
   *                                                                          *
   * `beforeConnect`                                                          *

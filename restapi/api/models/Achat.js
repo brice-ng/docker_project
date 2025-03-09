@@ -11,7 +11,12 @@ module.exports = {
 
     quantite:{
       type:'number',
-      required:true,
+      required:false,
+    },
+
+    montant:{
+      type:'number',
+      required:false,
     },
 
     moyen_paiement:{
@@ -19,6 +24,11 @@ module.exports = {
       required:true,
 
     },
+
+     // Add a reference to billet
+    evenement: {
+      model: 'Evenement'
+    }
     
   },
 

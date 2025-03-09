@@ -33,7 +33,16 @@ module.exports.policies = {
     'signup': true, 
     'login': true,
     'refreshToken':true
-  }
+  },
+
+  'EvenementController':{
+    'findOneInfo':true,
+  },
+
+  'BilletController':{
+    'reserver':true,
+  },
+
 
 
 };

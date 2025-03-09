@@ -119,6 +119,14 @@ export default function Aside(){
             </Link>
           </li>
 
+          <li className={pathname == "/admin/reservation" ? "menu-item active" : "menu-item "}>
+            <Link href="/admin/reservation" className="menu-link">
+              <i className="menu-icon tf-icons bx bx-book-alt"/>
+              <div data-i18n="Analytics">Revervation</div>
+            </Link>
+          </li>
+
+
           {/* <li className={pathname == "/admin/categorie" ? "menu-item active" : "menu-item "}>
             <Link href="/admin/categorie" className="menu-link">
               <i className="menu-icon tf-icons bx bx-category"/>

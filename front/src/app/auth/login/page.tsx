@@ -57,7 +57,7 @@ export default function Home() {
                 setTimeout(() => {
                     router.push('/admin');
                     //console.log("Voici le premier message");
-                }, 1500);
+                }, 500);
 
                 console.log(data);
             },

@@ -46,7 +46,7 @@ module.exports = {
      */
     create: async function (req, res) {
       try {
-        const { libelle, nbplace, montant, devise,evenement } = req.allParams();
+        const { libelle, nbplace, montant, devise,evenement,description } = req.allParams();
         const categorie = await Categorie.create({ libelle, nbplace, montant, devise,evenement }).fetch();
         return res.status(201).json(categorie);
       } catch (err) {
@@ -66,10 +66,10 @@ module.exports = {
      *       200:
      *         description: Liste des catégories
      */
-    find: async function (req, res) {
+    findbyEvenement: async function (req, res) {
       try {
         const { id } = req.params;
-        const categories = await Categorie.find({id});
+        const categories = await Categorie.find({evenement:id});
         return res.json(categories);
       } catch (err) {
         return res.status(500).json(err);
@@ -99,7 +99,7 @@ module.exports = {
     findOne: async function (req, res) {
       try {
         const { id } = req.params;
-        const categorie = await Categorie.findOne({ id });
+        const categorie = await Categorie.find({ id });
         if (!categorie) return res.notFound({ error: "Catégorie non trouvée" });
         return res.json(categorie);
       } catch (err) {

@@ -16,6 +16,11 @@ module.exports.routes = {
     'OPTIONS /*': { 
         cors: true 
     },
+    // Route pour les connexions WebSocket
+    "GET /socket.io/": { action: "sockets/connect", skipAssets: true, isSocket: true },
+    
+    // Autoriser les requêtes polling et WebSocket de socket.io
+    "GET /socket.io/*": { action: "sockets/connect", skipAssets: true, isSocket: true },
 
     /**
      * Route correspondant à swagger pour la documentation de l'API
@@ -37,7 +42,7 @@ module.exports.routes = {
      */
 
     'POST /api/categorie/save': {controller:'CategorieController', action:'create'},
-    'GET /api/categorie/all/:id': {controller:'CategorieController', action:'find'},
+    'GET /api/categorie/all/:id': {controller:'CategorieController', action:'findbyEvenement'},
     'GET /api/categorie/:id': {controller:'CategorieController', action:'findOne'},
     'PUT /api/categorie/update/:id': {controller:'CategorieController', action:'update'},
     'DELETE /api/categorie/:id': {controller:'CategorieController', action:'delete'},
@@ -50,6 +55,8 @@ module.exports.routes = {
     'POST /api/evenement/save': {controller:'EvenementController', action:'create'},
     'GET /api/evenement': {controller:'EvenementController', action:'find'},
     'GET /api/evenement/:id': {controller:'EvenementController', action:'findOne'},
+    'GET /api/evenement/info/:id': {controller:'EvenementController', action:'findOneInfo'},
+
     'PUT /api/evenement/update/:id': {controller:'EvenementController', action:'update'},
     'DELETE /api/evenement/:id': {controller:'EvenementController', action:'delete'},
     'GET /api/evenement/start/:id': {controller:'EvenementController', action:'start'},
@@ -57,6 +64,22 @@ module.exports.routes = {
 
     
 
+    /**
+     * Route Reservation
+     */
+
+    'POST /api/billet/reserver': {controller:'BilletController', action:'reserver'},
+    'GET /api/billet/liste/:evenement_id': {controller:'BilletController', action:'findbyEvenement'},
+
+
+
+
+    /**
+     * Gestion des organisateur de d'évènement
+     */
+    
+
+    
 
 
 };

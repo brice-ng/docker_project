@@ -289,10 +289,9 @@ export default function categorie() {
                                 </div>
 
                                 <div className="row mt-2">
-                                <div className="col-sm-5">
-                                        <Button className="mb-2" label="Nouvelle catégorie" icon="pi pi-plus" iconPos="right" onClick={() => {setVisible(true);setValue(category);setIsUpdating(false)}} />
+                                    <div className="col-sm-5">
+                                            <Button className="mb-2" label="Nouvelle catégorie" icon="pi pi-plus" iconPos="right" onClick={() => {setVisible(true);setValue(category);setIsUpdating(false)}} />
                                     </div>
-
                                 </div>
 
                                 <div className="row mt-4">

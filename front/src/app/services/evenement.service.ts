@@ -5,6 +5,7 @@ import axiosInstance from "@/app/helpers/axiosInstance";
 class EvenementService{
 
     rootURL = `evenement`;
+    rootURL2 = `http://localhost:1337/api/evenement`
 
     constructor() {
 
@@ -17,6 +18,11 @@ class EvenementService{
 
     async getByid(id:any): Promise<any[]> {
         const response = await axiosInstance.get(`${(this.rootURL)}/${id}`);
+        return response.data;
+    }
+
+    async getInfoById(id:any): Promise<any[]> {
+        const response = await axios.get(`${(this.rootURL2)}/info/${id}`);
         return response.data;
     }
 

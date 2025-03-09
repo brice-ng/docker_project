@@ -27,7 +27,7 @@ module.exports = {
     email:{
       type:'string',
       required:true,
-      unique: true,
+      unique: false,
       minLength: 3,
       isEmail: true
     },
@@ -38,10 +38,14 @@ module.exports = {
       defaultsTo: 'Reserve'
     },
     
-    
-    // Add a reference to bie
+    // Add a reference to category of bie
     categorie: {
       model: 'Categorie'
+    },
+
+    // Add a reference to billet
+    achat: {
+      model: 'Achat'
     }
 
 

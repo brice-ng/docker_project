@@ -51,9 +51,10 @@ module.exports = {
         create: async function (req, res) {
             try {
 
-              const userId = {};
+              const user = req.user;
+              
               const { libelle, nbplace, date_limite,date_evenement,description,lieu } = req.allParams();
-              const evenement = await Evenement.create({ libelle, nbplace, date_limite, date_evenement, description, lieu }).fetch();
+              const evenement = await Evenement.create({ libelle, nbplace, date_limite, date_evenement, description, lieu,user:user.id }).fetch();
               return res.status(201).json(evenement);
             } catch (err) {
               return res.status(500).json(err);
@@ -74,7 +75,8 @@ module.exports = {
            */
           find: async function (req, res) {
             try {
-              const Evenements = await Evenement.find();
+              const user = req.user;
+              const Evenements = await Evenement.find({user:user.id}).populate('Categories');
               return res.json(Evenements);
             } catch (err) {
               return res.status(500).json(err);
@@ -104,7 +106,7 @@ module.exports = {
           findOne: async function (req, res) {
             try {
               const { id } = req.params;
-              const evenement = await Evenement.findOne({ id });
+              const evenement = await Evenement.findOne({ id }).populate('Categories');
               if (!evenement) return res.notFound({ error: "évènement non trouvé" });
               return res.json(evenement);
             } catch (err) {
@@ -112,6 +114,56 @@ module.exports = {
             }
           },
         
+
+         /**
+           * @swagger
+           * /api/evenement/info/{id}:
+           *   get:
+           *     summary: Récupérer un évènement spécifique avec le récapitulatif
+           *     description: Retourne les détails d'un évènement en fonction de son ID.
+           *     tags:
+           *       - Evenements
+           *     parameters:
+           *       - in: path
+           *         name: id
+           *         required: true
+           *         schema:
+           *           type: integer
+           *     responses:
+           *       200:
+           *         description: évènement trouvée
+           *       404:
+           *         description: évènement non trouvée
+           */
+            findOneInfo: async function (req, res) {
+              //try {
+                const { id } = req.params;
+                const evenement = await Evenement.findOne({ id }).populate('Categories');
+
+                const countReservation = await Achat.count({
+                  evenement: evenement.id,
+                });
+
+                const countBillet = await Billet.getDatastore().sendNativeQuery(
+                  'select count(*) total from billet b LEFT JOIN categorie cat ON b.categorie=cat.id LEFT JOIN evenement e ON e.id=cat.evenement WHERE e.id = $1', [evenement.id]
+                );
+                
+                const countBilletByCategorie = await Categorie.getDatastore().sendNativeQuery(
+                  'select cat.id as categorie_id,cat.libelle as categorie ,count(b.reference) as nombre_reserver from categorie cat LEFT JOIN billet b ON b.categorie=cat.id LEFT JOIN evenement e ON e.id=cat.evenement WHERE e.id = $1 group by cat.id', [evenement.id]
+                );
+
+                const total = countBillet.rows[0].total || 0; 
+
+                evenement.total=total;
+                evenement.total_categories=countBilletByCategorie.rows;
+
+                if (!evenement) return res.notFound({ error: "évènement non trouvé" });
+                return res.json(evenement);
+              /*} catch (err) {
+                return res.status(500).json(err);
+              }*/
+            },
+
           /**
            * @swagger
            * /api/evenement/update/{id}:
