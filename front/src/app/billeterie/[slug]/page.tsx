@@ -21,6 +21,7 @@ import {format} from "date-fns";
 import {fr} from "date-fns/locale";
 import {reservationService} from "@/app/services/reservation.service";
 import { io } from "socket.io-client";
+import {Toast} from "primereact/toast";
 
 export default function Home() {
     //const socket = io("http://localhost:1337");
@@ -56,6 +57,7 @@ export default function Home() {
             style: { width: "100%" },
         },
     };
+
     const router = useRouter()
     const [visible, setVisible] = useState(false);
 
@@ -104,6 +106,7 @@ export default function Home() {
         setUserValue({ ...userTicket, [e.target.name]: e.target.value });
     };
 */
+    const toast = useRef(null);
 
     const userTickethandleChange = (e, index) => {
         const { name, value } = e.target;
@@ -210,6 +213,8 @@ export default function Home() {
                             setNbplace(nb);
                         }
 
+                        toast.current.show({ severity: 'info', summary: 'Message', detail: 'Réservation effectué ',life: 5000 });
+
                     });
 
                     return () => {
@@ -234,7 +239,7 @@ export default function Home() {
     return (
         <>
 
-
+            <Toast ref={toast}/>
             <div className="layout-wrapper layout-content-navbar">
                 <div className="layout-container">
 

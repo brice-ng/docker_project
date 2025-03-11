@@ -37,6 +37,7 @@ module.exports.sockets = {
   //onlyAllowOrigins: "*", 
 
   onlyAllowOrigins: ['http://localhost:3000', 'http://localhost:4100'],
+  
 /*
   beforeConnect: function(handshake, proceed) {
     // Autoriser l'origine http://localhost:4100

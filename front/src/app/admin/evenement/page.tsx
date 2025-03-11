@@ -21,11 +21,11 @@ import {InputText} from "primereact/inputtext";
 import {InputTextarea} from "primereact/inputtextarea";
 import { ConfirmDialog } from 'primereact/confirmdialog'; // For <ConfirmDialog /> component
 import { confirmDialog } from 'primereact/confirmdialog';
-import {useRouter} from "next/navigation"; // For confirmDialog method
+import {useRouter} from "next/navigation";
+import {Evenement} from "@/app/types/evenement"; // For confirmDialog method
 
 
 export default function evenement() {
-    const [evenements=[], setEvenements] = useState([]);
     let style={
         iconField: {
             root: {
@@ -41,6 +41,7 @@ export default function evenement() {
     };
     const router = useRouter()
 
+    const [evenements=[], setEvenements] = useState<Evenement[]>([]);
 
     let event = {
         id:0,
@@ -92,10 +93,10 @@ export default function evenement() {
                     console.log("erreur");
                 }
 
-                },
-                ()=>{
-                    console.log("error post request");
-                });
+            },
+            ()=>{
+                console.log("error post request");
+            });
         }else{
             console.log(evenement)
             delete evenement.statut;
@@ -175,6 +176,13 @@ export default function evenement() {
 
     };
 
+    const viewReservationDetail =async (dataEvent)=>{
+        //let event = dataEvent;
+        console.log(dataEvent);
+        router.push(`/admin/reservation/${dataEvent.id}`);
+
+    };
+
 
     const accept = () => {
         toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
@@ -219,7 +227,8 @@ export default function evenement() {
         return (
             <>
                 <Button icon="pi pi-chevron-circle-down" onClick={()=>viewCategory(rowData)} rounded text severity="primary" />
-                <Button icon="pi pi-play" rounded text severity="success" />
+               {/* <Button icon="pi pi-play" rounded text severity="success" />*/}
+                <Button icon="pi pi-globe" onClick={() =>viewReservationDetail(rowData)} rounded text severity="success" />
                 <Button icon="pi pi-pencil" onClick={() =>editEvenenemt(rowData)} rounded text aria-label="Filter" />
                 <Button icon="pi pi-trash" onClick={()=>confirmDelete(rowData)} rounded text severity="danger" />
             </>

@@ -101,9 +101,10 @@ module.exports = {
                 });
 
                 const billetsEnregistres = await Billet.createEach(billetsAvecPaiement).fetch();
+                //const catId = billetsAvecPaiement.map(x=>x.categorie)[0];
 
                 // Émettre un événement WebSocket
-                sails.sockets.blast("ticketBought_"+evenement, { eventId: evenement ,billets:billetsAvecPaiement});
+                sails.sockets.blast("ticketBought_"+evenement, { eventId: evenement ,billets:billetsAvecPaiement,montant:montant});
 
                 return res.status(201).json(billetsEnregistres);
 
