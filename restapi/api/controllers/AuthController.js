@@ -141,7 +141,7 @@ module.exports = {
       if (!isValidPassword) return res.status(401).json({ message: "Mot de passe incorrect" });
 
       // Génération des tokens
-      const accessToken = jwt.sign({ id: user.id, email: user.email }, "secretkey", { expiresIn: "1h" });
+      const accessToken = jwt.sign({ id: user.id, email: user.email }, "secretkey", { expiresIn: "7h" });
       const refreshToken = jwt.sign({ id: user.id, email: user.email }, "refresh_secret", { expiresIn: "7d" });
 
       return res.json({ message: "Connexion réussie.", token: accessToken, refreshToken ,user:user});

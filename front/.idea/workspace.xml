@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8798703-a222-408c-b482-be7bd730cec7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/admin/reservation/[slug]/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/types/categorie.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/types/evenement.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/types/infoEvenement.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/types/totalCategorie.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/admin/evenement/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/admin/evenement/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/admin/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/admin/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/billeterie/[slug]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/billeterie/[slug]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restapi/config/sockets.js" beforeDir="false" afterPath="$PROJECT_DIR$/../restapi/config/sockets.js" afterDir="false" />
-    </list>
+    <list default="true" id="f8798703-a222-408c-b482-be7bd730cec7" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,7 +63,7 @@
       <updated>1741684169677</updated>
       <workItem from="1741684170769" duration="345000" />
       <workItem from="1741684527088" duration="5000" />
-      <workItem from="1741684550328" duration="6942000" />
+      <workItem from="1741684550328" duration="7405000" />
     </task>
     <servers />
   </component>
