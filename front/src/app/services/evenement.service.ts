@@ -26,6 +26,11 @@ class EvenementService{
         return response.data;
     }
 
+    async getInfoClientById(id:any): Promise<any[]> {
+        const response = await axios.get(`${(this.rootURL2)}/info-client/${id}`);
+        return response.data;
+    }
+
     async demarrer(id:any): Promise<any[]> {
         const response = await axiosInstance.get(`${(this.rootURL)}/start/${id}`);
         return response.data;

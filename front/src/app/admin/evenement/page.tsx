@@ -23,6 +23,8 @@ import { ConfirmDialog } from 'primereact/confirmdialog'; // For <ConfirmDialog 
 import { confirmDialog } from 'primereact/confirmdialog';
 import {useRouter} from "next/navigation";
 import {Evenement} from "@/app/types/evenement"; // For confirmDialog method
+import { Tooltip } from 'primereact/tooltip';
+import { Badge } from 'primereact/badge';
 
 
 export default function evenement() {
@@ -100,6 +102,7 @@ export default function evenement() {
         }else{
             console.log(evenement)
             delete evenement.statut;
+            delete evenement.Categories;
             evenementService.update(evenement,evenement.id).then(data=>{
                 console.log(data);
                 loadEvenements();
@@ -133,6 +136,9 @@ export default function evenement() {
                 console.log(err)
             });
     };
+
+
+
 
     const footerContent = (
         <div className="text-center">
@@ -222,17 +228,124 @@ export default function evenement() {
     };
 
 
+    const confirmStartEvent = (dataEvent) => {
+        confirmDialog({
+            message: 'Voulez-vous lancer la mise en vente des billets de cet évènement?',
+            header: 'Confirmation',
+            icon: 'pi pi-info-circle',
+            defaultFocus: 'reject',
+            acceptClassName: 'p-button-Primary p-button-sm',
+            rejectClassName: 'p-button-danger p-button-sm me-2',
+
+            acceptLabel:'Oui',
+            rejectLabel:'Non',
+            accept:()=>{
+
+                evenementService.demarrer(dataEvent.id).then(data=>{
+
+                    toast.current.show({ severity: 'info', summary: 'Lancement', detail: 'Mise en vente effectuée', life: 3000 });
+                    loadEvenements();
+                },(err)=>{
+                    toast.current.show({ severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la mise en vente effectuée', life: 3000 });
+
+                    console.log(err);
+                })
+            },
+            reject:()=>{
+
+            }
+        });
+    };
+
+
+    const confirmEndEvent = (dataEvent) => {
+        confirmDialog({
+            message: 'Voulez-vous clôturer la mise en vente des billets de cet évènement?',
+            header: 'Confirmation',
+            icon: 'pi pi-info-circle',
+            defaultFocus: 'reject',
+            acceptClassName: 'p-button-danger p-button-sm',
+            rejectClassName: 'p-button-Primary p-button-sm me-2',
+
+            acceptLabel:'Oui',
+            rejectLabel:'Non',
+            accept:()=>{
+
+                evenementService.cloturer(dataEvent.id).then(data=>{
+                    toast.current.show({ severity: 'info', summary: 'Clôturation', detail: 'Clôturation effectuée avec succès', life: 3000 });
+                    loadEvenements();
+                },(err)=>{
+                    toast.current.show({ severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la clôturation', life: 3000 });
+
+                    console.log(err);
+                })
+            },
+            reject:()=>{
+
+            }
+        });
+    };
+
+
+
     const actionTemplate = (rowData) => {
 
         return (
             <>
-                <Button icon="pi pi-chevron-circle-down" onClick={()=>viewCategory(rowData)} rounded text severity="primary" />
-               {/* <Button icon="pi pi-play" rounded text severity="success" />*/}
-                <Button icon="pi pi-globe" onClick={() =>viewReservationDetail(rowData)} rounded text severity="success" />
-                <Button icon="pi pi-pencil" onClick={() =>editEvenenemt(rowData)} rounded text aria-label="Filter" />
-                <Button icon="pi pi-trash" onClick={()=>confirmDelete(rowData)} rounded text severity="danger" />
+                <Button icon="pi pi-chevron-circle-down" onClick={()=>viewCategory(rowData)} tooltip="Catégorie" tooltipOptions={{ position: 'top' }} rounded text severity="primary" />
+
+                {rowData.statut == "creation" &&
+                    <Button icon="pi pi-play" onClick={()=>{confirmStartEvent(rowData)}} rounded text severity="info" tooltip="Démarrer" tooltipOptions={{ position: 'top' }}/>
+                }
+
+                {rowData.statut == "lance" &&
+                    <Button icon="pi pi-stop-circle" onClick={()=>{confirmEndEvent(rowData)}} rounded text severity="danger" tooltip="Clôturer" tooltipOptions={{ position: 'top' }}/>
+                }
+
+
+                <Button icon="pi pi-globe" onClick={() =>viewReservationDetail(rowData)} rounded text severity="success" tooltip="Réservation" tooltipOptions={{ position: 'top' }} />
+                <Button icon="pi pi-pencil" onClick={() =>editEvenenemt(rowData)} rounded text aria-label="Filter" tooltip="Modifier" tooltipOptions={{ position: 'top' }}/>
+                <Button icon="pi pi-trash" onClick={()=>confirmDelete(rowData)} rounded text severity="danger" tooltip="supprimer" tooltipOptions={{ position: 'top' }} />
             </>
         );
+    };
+
+
+    const nombreCategorie = (rowData) => {
+
+        return (
+            <>
+                <span>{rowData.statut}</span>
+            </>
+        );
+    };
+
+    const statutEvent = (rowData) => {
+
+        if(rowData.statut=="creation"){
+            return (
+                <>
+                    <Badge value="Création" severity="warning"></Badge>
+                </>
+            );
+        }else if(rowData.statut=="lance"){
+            return (
+                <>
+                    <Badge value="En cour" severity="success"></Badge>
+                </>
+            );
+
+        }else{
+
+            return (
+                <>
+                    <Badge value="Clôturé" severity="primary"></Badge>
+                </>
+            );
+        }
+
+
+
     };
 
 
@@ -267,11 +380,11 @@ export default function evenement() {
                                                    columnResizeMode="expand" resizableColumns paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                                    emptyMessage="Pas d'évèmenent sauvegardé." currentPageReportTemplate="Affiche {first} to {last} sur {totalRecords} entrées">
                                             <Column field="libelle" header="Libelle"></Column>
-                                            <Column field="nbplace" header="Nombre de place"></Column>
+                                            <Column field="nbplace" header="Place"></Column>
                                             <Column field="lieu" header="Lieu"></Column>
                                             <Column field="date_evenement" header="Date" body={dateEventBodyTemplate} ></Column>
                                             <Column field="createdAt" header="Date de création" body={createDateBodyTemplate}></Column>
-                                            <Column  header="Catégories"></Column>
+                                            <Column  header="Statut" body={statutEvent}></Column>
 
                                             <Column  header="Actions" body={actionTemplate}></Column>
                                         </DataTable>

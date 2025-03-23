@@ -5,6 +5,12 @@ Liste des fonctionnalités à réaliser en backend (sailsjs):
 - [x] Gestion des évenements -->Pour le 29/01/2025
 - [x] Gestion des catégories de billet -->Pour le 29/01/2025
 - [x] Gestion des réservations -->Pour le 04/03/2025
+- [ ] Gestion des organisateurs
+- [ ] Gestion des plans de table
+- [x] Génerer des billets
+
+
+
 
 Liste des tâches à réaliser en frontend (Nextjs): 
 - [ ] Page d'acceuil et structuration du site

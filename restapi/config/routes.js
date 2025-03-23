@@ -56,6 +56,7 @@ module.exports.routes = {
     'GET /api/evenement': {controller:'EvenementController', action:'find'},
     'GET /api/evenement/:id': {controller:'EvenementController', action:'findOne'},
     'GET /api/evenement/info/:id': {controller:'EvenementController', action:'findOneInfo'},
+    'GET /api/evenement/info-client/:id': {controller:'EvenementController', action:'findOneInfoClient'},
 
     'PUT /api/evenement/update/:id': {controller:'EvenementController', action:'update'},
     'DELETE /api/evenement/:id': {controller:'EvenementController', action:'delete'},
@@ -71,15 +72,22 @@ module.exports.routes = {
     'POST /api/billet/reserver': {controller:'BilletController', action:'reserver'},
     'GET /api/billet/liste/:evenement_id': {controller:'BilletController', action:'findbyEvenement'},
 
+    'GET /api/billet/imprimer/:reservation_id': {controller:'BilletController', action:'printBillet'},
 
-
-
+    
+  
     /**
      * Gestion des organisateur de d'évènement
      */
     
-
+   
     
+    /**
+     * visualisation du billet en pdf
+     */
 
+    'get /pdf': {
+        view: 'pdfTemplate'
+    },
 
 };

@@ -60,10 +60,26 @@ export default function Home() {
 
     const router = useRouter()
     const [visible, setVisible] = useState(false);
+/**
+    {
+        "createdAt": 1742737244577,
+        "updatedAt": 1742737244577,
+        "id": 28,
+        "reference": "032025emMABxb96HPQXPVEI5JJvfGqcAXcYxFus84iHWljTZp1UCnfJBRdTAdcTt-3-0",
+        "nom": "brice",
+        "prenom": "87Mat",
+        "email": "brice@gmail.com",
+        "statut": "Reserve",
+        "categorie": 5,
+        "achat": 37
+    } */
 
     const [evenement, setEvenement] = useState({date_evenement:"2025-03-11T09:18:00.000Z",Categories:[],total:0});
     const [nombrePlace, setNbplace] = useState(0);
     const [categories=[], setCategories] = useState([]);
+
+    const [billets=[], setBillets] = useState([]);
+
     const [categorie, setCategorie] = useState({});
 
     let [activeIndex, setActiveIndex] = useState(0);
@@ -71,16 +87,18 @@ export default function Home() {
 
     const [formValues, setFormValues] = useState({});
 
-    const [dataInfos=[], setDataInfos] = useState([{
-        nom:'',
-        prenom:'',
-        email:'',
-        categorie:0
-    }]);
+    const [dataInfos=[], setDataInfos] = useState([
+        {
+            nom:'',
+            prenom:'',
+            email:'',
+            categorie:0
+        }
+    ]);
 
     const items = [
         {
-            label: 'Panier'
+            label: 'Panier',
         },
         {
             label: 'Vos coordonnées'
@@ -100,12 +118,14 @@ export default function Home() {
     }
     const [userTicket, setUserValue] = useState(user);
     const [paiement, setPaiement] = useState('');
-/*
-    const userTickethandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-        setUserValue({ ...userTicket, [e.target.name]: e.target.value });
-    };
-*/
+    /*
+        const userTickethandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+            setUserValue({ ...userTicket, [e.target.name]: e.target.value });
+        };
+    */
+
     const toast = useRef(null);
 
     const userTickethandleChange = (e, index) => {
@@ -158,13 +178,11 @@ export default function Home() {
         reservationService.reserver(dataPaiment).then(data=>{
             console.log(data);
             if(data){
-
+                setBillets(data)
                 setActiveIndex(++activeIndex);
             }
 
         });
-
-
 
     };
 
@@ -186,11 +204,23 @@ export default function Home() {
 
 
 
+    const printTicket =  () => {
+
+        let row = billets[0];
+        console.log("print start")
+        reservationService.printReservationBillet(row.achat).then(data=>{
+            //console.log(data);
+        });
+
+    };
+
+
+
 
     useEffect(() => {
         //console.log("les uses effects")
 
-        evenementService.getInfoById(event_id).then(data=>{
+        evenementService.getInfoClientById(event_id).then(data=>{
                 if(data){
                     //console.log("set data")
                     console.log(data);
@@ -220,11 +250,13 @@ export default function Home() {
                     return () => {
                         socket.off("ticketBought_"+event_id);
                     };
+
                 }
                 //console.log(data)
             },
             (err)=>{
                 console.log(err)
+                console.log("non trouvé")
             });
 
         //console.log("slug route");
@@ -422,7 +454,7 @@ export default function Home() {
                             <h4><i className="pi pi-check text-primary me-2 ms-2"></i>Votre commande a bien été validé</h4>
                             <h5 className="mt-2">La commande a été enregistrée</h5>
 
-                            <Link href="#">Télécharger vos billets</Link>
+                            <Link href="#" onClick={()=>{printTicket()}}>Télécharger vos billets</Link>
 
 
                             <Card className="mt-4" title="Message de l'organisateur à votre attention">

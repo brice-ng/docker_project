@@ -102,6 +102,13 @@
                 "$ref": "#/components/schemas/evenement"
               }
             ]
+          },
+          "billets": {
+            "description": "Array of **billet**'s or array of FK's when creating / updating / not populated",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/billet"
+            }
           }
         }
       },
@@ -312,13 +319,13 @@
           },
           "statut": {
             "type": "string",
-            "default": "Reserve",
+            "default": "creation",
             "enum": [
               "creation",
               "lance",
               "cloture"
             ],
-            "example": "Reserve"
+            "example": "creation"
           },
           "user": {
             "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
@@ -327,6 +334,13 @@
                 "$ref": "#/components/schemas/user"
               }
             ]
+          },
+          "reservations": {
+            "description": "Array of **achat**'s or array of FK's when creating / updating / not populated",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/achat"
+            }
           }
         }
       },
@@ -571,7 +585,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -581,7 +595,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -591,7 +605,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories,user"
+              "example": "false,Categories,user,reservations"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -851,6 +865,36 @@
         }
       }
     },
+    "/api/evenement/info-client/{_id}": {
+      "get": {
+        "summary": "/api/evenement/info-client/{_id}",
+        "tags": [
+          "Evenement"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/evenement/start/{_id}": {
       "get": {
         "summary": "/api/evenement/start/{_id}",
@@ -926,6 +970,36 @@
               "type": "string"
             },
             "description": "Route pattern variable `evenement_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/billet/imprimer/{reservation_id}": {
+      "get": {
+        "summary": "/api/billet/imprimer/{reservation_id}",
+        "tags": [
+          "Billet"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "reservation_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `reservation_id`"
           }
         ],
         "responses": {
@@ -1056,7 +1130,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -1066,7 +1140,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -1076,7 +1150,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories,user"
+              "example": "false,Categories,user,reservations"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -1162,7 +1236,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement"
+              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement,billets"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -1172,7 +1246,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement"
+              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement,billets"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -1182,7 +1256,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,evenement"
+              "example": "false,evenement,billets"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -1231,7 +1305,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement"
+              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement,billets"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -1241,7 +1315,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement"
+              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement,billets"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -1251,7 +1325,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,evenement"
+              "example": "false,evenement,billets"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -1351,6 +1425,18 @@
               ]
             },
             "description": "JSON dictionary representing the **evenement** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "billets",
+            "schema": {
+              "description": "Array of **billet**'s or array of FK's when creating / updating / not populated",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/billet"
+              }
+            },
+            "description": "Array of **billet**'s or array of FK's when creating / updating / not populated"
           }
         ],
         "responses": {
@@ -1453,6 +1539,18 @@
               ]
             },
             "description": "JSON dictionary representing the **evenement** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "billets",
+            "schema": {
+              "description": "Array of **billet**'s or array of FK's when creating / updating / not populated",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/billet"
+              }
+            },
+            "description": "Array of **billet**'s or array of FK's when creating / updating / not populated"
           }
         ],
         "responses": {
@@ -1507,6 +1605,196 @@
           },
           "404": {
             "description": "Cannot destroy, **Achat** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/achat/{_id}/{association}/add/{childid}": {
+      "get": {
+        "summary": "Add to for Achat *",
+        "description": "Add a foreign record to one of this **Achat** record's collections.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/add-to",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/add-to"
+        },
+        "tags": [
+          "Achat"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-achat"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "billets"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "in": "path",
+            "name": "childid",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Achat** record's foreign key values to use as the replacement for this collection (**billets** association)",
+                  "uniqueItems": true
+                }
+              ]
+            },
+            "description": "The desired target association record's foreign key value"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Achat** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/achat"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot perform add to, **Achat** record OR **FK record** with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/achat/{_id}/{association}/replace": {
+      "get": {
+        "summary": "Replace for Achat *",
+        "description": "Replace all of the child records in one of this **Achat** record's associations.\n\nOnly one of the query parameters, that matches the **association** path parameter, should be specified.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/replace",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/replace"
+        },
+        "tags": [
+          "Achat"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-achat"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "billets"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "in": "query",
+            "name": "billets",
+            "description": "**Achat** record's foreign key values to use as the replacement for this collection (**billets** association)",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double",
+                "description": "**Achat** record's foreign key values to use as the replacement for this collection (**billets** association)",
+                "uniqueItems": true
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Achat** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/achat"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot replace, **Achat** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/achat/{_id}/{association}/remove/{childid}": {
+      "get": {
+        "summary": "Remove from for Achat *",
+        "description": "Remove a foreign record from one of this **Achat** record's collections.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/remove-from",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/remove-from"
+        },
+        "tags": [
+          "Achat"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-achat"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "billets"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "in": "path",
+            "name": "childid",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Achat** record's foreign key values to use as the replacement for this collection (**billets** association)",
+                  "uniqueItems": true
+                }
+              ]
+            },
+            "description": "The desired target association record's foreign key value"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Achat** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/achat"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot perform remove from, **Achat** record OR **FK record** with specified ID **NOT** found"
           },
           "500": {
             "description": "Internal server error"
@@ -2432,7 +2720,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -2442,7 +2730,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -2452,7 +2740,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories,user"
+              "example": "false,Categories,user,reservations"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -2501,7 +2789,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -2511,7 +2799,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -2521,7 +2809,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories,user"
+              "example": "false,Categories,user,reservations"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -2651,13 +2939,13 @@
             "name": "statut",
             "schema": {
               "type": "string",
-              "default": "Reserve",
+              "default": "creation",
               "enum": [
                 "creation",
                 "lance",
                 "cloture"
               ],
-              "example": "Reserve"
+              "example": "creation"
             }
           },
           {
@@ -2672,6 +2960,18 @@
               ]
             },
             "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "reservations",
+            "schema": {
+              "description": "Array of **achat**'s or array of FK's when creating / updating / not populated",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/achat"
+              }
+            },
+            "description": "Array of **achat**'s or array of FK's when creating / updating / not populated"
           }
         ],
         "responses": {
@@ -2801,13 +3101,13 @@
             "name": "statut",
             "schema": {
               "type": "string",
-              "default": "Reserve",
+              "default": "creation",
               "enum": [
                 "creation",
                 "lance",
                 "cloture"
               ],
-              "example": "Reserve"
+              "example": "creation"
             }
           },
           {
@@ -2822,6 +3122,18 @@
               ]
             },
             "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "reservations",
+            "schema": {
+              "description": "Array of **achat**'s or array of FK's when creating / updating / not populated",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/achat"
+              }
+            },
+            "description": "Array of **achat**'s or array of FK's when creating / updating / not populated"
           }
         ],
         "responses": {
@@ -2905,7 +3217,8 @@
             "schema": {
               "type": "string",
               "enum": [
-                "Categories"
+                "Categories",
+                "reservations"
               ]
             },
             "description": "The name of the association"
@@ -2920,6 +3233,12 @@
                   "type": "number",
                   "format": "double",
                   "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**Categories** association)",
+                  "uniqueItems": true
+                },
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**reservations** association)",
                   "uniqueItems": true
                 }
               ]
@@ -2969,7 +3288,8 @@
             "schema": {
               "type": "string",
               "enum": [
-                "Categories"
+                "Categories",
+                "reservations"
               ]
             },
             "description": "The name of the association"
@@ -2984,6 +3304,20 @@
                 "type": "number",
                 "format": "double",
                 "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**Categories** association)",
+                "uniqueItems": true
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "reservations",
+            "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**reservations** association)",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double",
+                "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**reservations** association)",
                 "uniqueItems": true
               }
             }
@@ -3031,7 +3365,8 @@
             "schema": {
               "type": "string",
               "enum": [
-                "Categories"
+                "Categories",
+                "reservations"
               ]
             },
             "description": "The name of the association"
@@ -3046,6 +3381,12 @@
                   "type": "number",
                   "format": "double",
                   "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**Categories** association)",
+                  "uniqueItems": true
+                },
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**reservations** association)",
                   "uniqueItems": true
                 }
               ]
@@ -3558,7 +3899,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement"
+              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement,billets"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -3568,7 +3909,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement"
+              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement,billets"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -3578,7 +3919,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,evenement"
+              "example": "false,evenement,billets"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -3671,7 +4012,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement"
+              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement,billets"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -3681,7 +4022,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement"
+              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement,billets"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -3691,7 +4032,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,evenement"
+              "example": "false,evenement,billets"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -3798,7 +4139,200 @@
         }
       }
     },
+    "/achat/{_id}/{association}/{childid}": {
+      "put": {
+        "summary": "Add to for Achat",
+        "description": "Add a foreign record to one of this **Achat** record's collections.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/add-to",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/add-to"
+        },
+        "tags": [
+          "Achat"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-achat"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "billets"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "in": "path",
+            "name": "childid",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Achat** record's foreign key values to use as the replacement for this collection (**billets** association)",
+                  "uniqueItems": true
+                }
+              ]
+            },
+            "description": "The desired target association record's foreign key value"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Achat** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/achat"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot perform add to, **Achat** record OR **FK record** with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove from for Achat",
+        "description": "Remove a foreign record from one of this **Achat** record's collections.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/remove-from",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/remove-from"
+        },
+        "tags": [
+          "Achat"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-achat"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "billets"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "in": "path",
+            "name": "childid",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Achat** record's foreign key values to use as the replacement for this collection (**billets** association)",
+                  "uniqueItems": true
+                }
+              ]
+            },
+            "description": "The desired target association record's foreign key value"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Achat** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/achat"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot perform remove from, **Achat** record OR **FK record** with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/achat/{_id}/{association}": {
+      "put": {
+        "summary": "Replace for Achat",
+        "description": "Replace all of the child records in one of this **Achat** record's associations.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/replace",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/replace"
+        },
+        "tags": [
+          "Achat"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-achat"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "billets"
+              ]
+            },
+            "description": "The name of the association"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Achat** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/achat"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot replace, **Achat** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "The primary key values (usually IDs) of the child records to use as the new members of this collection",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "description": "**Achat** record's foreign key values to use as the replacement for this collection (**billets** association)",
+                      "uniqueItems": true
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
       "get": {
         "summary": "Populate association for Achat",
         "description": "Populate and return foreign record(s) for the given association of this **Achat** record.",
@@ -3820,7 +4354,8 @@
             "schema": {
               "type": "string",
               "enum": [
-                "evenement"
+                "evenement",
+                "billets"
               ]
             },
             "description": "The name of the association"
@@ -3843,7 +4378,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement"
+              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement,billets"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -3853,7 +4388,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement"
+              "example": "createdAt,updatedAt,id,quantite,montant,moyen_paiement,evenement,billets"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -3869,6 +4404,9 @@
                     "oneOf": [
                       {
                         "$ref": "#/components/schemas/evenement"
+                      },
+                      {
+                        "$ref": "#/components/schemas/billet"
                       }
                     ]
                   }
@@ -4642,7 +5180,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -4652,7 +5190,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -4662,7 +5200,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories,user"
+              "example": "false,Categories,user,reservations"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -4755,7 +5293,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -4765,7 +5303,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -4775,7 +5313,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,Categories,user"
+              "example": "false,Categories,user,reservations"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -4904,7 +5442,8 @@
             "schema": {
               "type": "string",
               "enum": [
-                "Categories"
+                "Categories",
+                "reservations"
               ]
             },
             "description": "The name of the association"
@@ -4919,6 +5458,12 @@
                   "type": "number",
                   "format": "double",
                   "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**Categories** association)",
+                  "uniqueItems": true
+                },
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**reservations** association)",
                   "uniqueItems": true
                 }
               ]
@@ -4966,7 +5511,8 @@
             "schema": {
               "type": "string",
               "enum": [
-                "Categories"
+                "Categories",
+                "reservations"
               ]
             },
             "description": "The name of the association"
@@ -4981,6 +5527,12 @@
                   "type": "number",
                   "format": "double",
                   "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**Categories** association)",
+                  "uniqueItems": true
+                },
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**reservations** association)",
                   "uniqueItems": true
                 }
               ]
@@ -5030,7 +5582,8 @@
             "schema": {
               "type": "string",
               "enum": [
-                "Categories"
+                "Categories",
+                "reservations"
               ]
             },
             "description": "The name of the association"
@@ -5068,6 +5621,12 @@
                       "format": "double",
                       "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**Categories** association)",
                       "uniqueItems": true
+                    },
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "description": "**Evenement** record's foreign key values to use as the replacement for this collection (**reservations** association)",
+                      "uniqueItems": true
                     }
                   ]
                 }
@@ -5098,7 +5657,8 @@
               "type": "string",
               "enum": [
                 "Categories",
-                "user"
+                "user",
+                "reservations"
               ]
             },
             "description": "The name of the association"
@@ -5121,7 +5681,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -5131,7 +5691,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user"
+              "example": "createdAt,updatedAt,id,libelle,nbplace,lieu,date_evenement,date_limite,description,Categories,statut,user,reservations"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -5150,6 +5710,9 @@
                       },
                       {
                         "$ref": "#/components/schemas/user"
+                      },
+                      {
+                        "$ref": "#/components/schemas/achat"
                       }
                     ]
                   }

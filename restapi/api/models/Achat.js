@@ -28,7 +28,13 @@ module.exports = {
      // Add a reference to billet
     evenement: {
       model: 'Evenement'
-    }
+    },
+
+    billets: {
+      collection: 'billet',
+      via: 'achat'
+    },
+    
     
   },
 

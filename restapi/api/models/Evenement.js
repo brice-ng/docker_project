@@ -49,13 +49,19 @@ module.exports = {
     statut: {
       type: 'string',
       isIn: ['creation', 'lance', 'cloture'],
-      defaultsTo: 'Reserve'
+      defaultsTo: 'creation'
     },
 
     // Add a reference to evenement
     user: {
       model: 'User'
-    }
+    },
+
+    reservations: {
+      collection: 'achat',
+      via: 'evenement'
+    },
+
 
   },
 

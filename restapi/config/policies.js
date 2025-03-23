@@ -37,10 +37,12 @@ module.exports.policies = {
 
   'EvenementController':{
     'findOneInfo':true,
+    'findOneInfoClient':true,
   },
 
   'BilletController':{
     'reserver':true,
+    'printBillet':true
   },
 
 

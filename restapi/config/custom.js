@@ -20,4 +20,17 @@ module.exports.custom = {
   // …
 
 
+
+  smtp: {
+    host: 'smtp.gmail.com', // Remplace par ton serveur SMTP
+    port: 587, // 465 si SSL, 587 pour TLS
+    secure: false, // true pour SSL
+    auth: {
+      user: 'ins.yaoundetest@gmail.com',
+      pass: 'krwxtnqwumgcudzn'
+    }
+  }
+
+
+
 };

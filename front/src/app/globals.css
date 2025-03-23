@@ -34,3 +34,9 @@
 .icon-admin{
     font-size: 65px;
 }
+
+.profile-menu{
+    list-style: none;
+    width: 100%;
+    padding-left: 0rem !important;
+}

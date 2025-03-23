@@ -27,7 +27,6 @@ module.exports = {
     email:{
       type:'string',
       required:true,
-      unique: false,
       minLength: 3,
       isEmail: true
     },

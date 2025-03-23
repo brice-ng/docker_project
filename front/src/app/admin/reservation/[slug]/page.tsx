@@ -113,7 +113,7 @@ export default function reservationByEvent() {
 
     const loadDatas = async () => {
         console.log("load reservation");
-        console.log(event_id)
+        //console.log(event_id)
 
         reservationService.getReservationByEvenementId(event_id).then(dataR=>{
             if(dataR){
@@ -122,7 +122,6 @@ export default function reservationByEvent() {
                     console.log(data);
                     setEvenement(data);
                     setStat({...stat,totalB:data.total ,totalR: dataR.length,montant:dataR.reduce((sum, reserv) => sum + reserv.montant, 0)});
-
                 });
 
             }

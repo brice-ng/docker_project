@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billet d'Événement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .ticket-container {
+            width: 600px;
+            padding: 30px;
+            background: white;
+            text-align: center;
+            border: 2px dashed #333;
+            border-radius: 10px;
+            margin: 20px auto;
+        }
+        .event-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .details {
+            font-size: 18px;
+            margin: 10px 0;
+            text-align: left;
+            margin-left: 20px;
+        }
+        .qrcode img {
+            width: 150px;
+            height: 150px;
+        }
+        .nav-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .nav-buttons a {
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+        }
+        .nav-buttons a:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- Billet 1 -->
+    <div id="ticket1" class="ticket-container">
+        <div class="event-name">Concert Live - Jazz Night</div>
+
+        <div class="details"><strong>Nom:</strong> Brice</div>
+        <div class="details"><strong>Prénom:</strong> Vanneck</div>
+        <div class="details"><strong>Email:</strong> tonemail@exemple.com</div>
+
+        <div class="details" style="margin-top: 10px;"><strong>Date</strong> : 20 Mars 2025</div>
+        <div class="details"><strong>Heure</strong> : 19h00</div>
+        <div class="details"><strong>Lieu</strong> : Paris, Salle XYZ</div>
+
+        <div class="qrcode">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=032025SDVp8HlGzyxfPT4whv6yAhADttSZ7nyb4AImB48CV9LleAva6hNfLdmwpk-1-0" alt="QR Code">
+        </div>
+    </div>
+
+    <div  class="ticket-container">
+        <div class="event-name">Concert Live - Jazz Night</div>
+
+        <div class="details"><strong>Nom:</strong> Brice</div>
+        <div class="details"><strong>Prénom:</strong> Vanneck</div>
+        <div class="details"><strong>Email:</strong> tonemail@exemple.com</div>
+
+        <div class="details" style="margin-top: 10px;"><strong>Date</strong> : 20 Mars 2025</div>
+        <div class="details"><strong>Heure</strong> : 19h00</div>
+        <div class="details"><strong>Lieu</strong> : Paris, Salle XYZ</div>
+
+        <div class="qrcode">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=032025SDVp8HlGzyxfPT4whv6yAhADttSZ7nyb4AImB48CV9LleAva6hNfLdmwpk-1-0" alt="QR Code">
+        </div>
+    </div>
+
+</body>
+</html>

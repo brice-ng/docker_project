@@ -23,6 +23,7 @@ import { ConfirmDialog } from 'primereact/confirmdialog'; // For <ConfirmDialog 
 import { confirmDialog } from 'primereact/confirmdialog';
 import {useParams} from "next/navigation";
 import {categorieService} from "@/app/services/categorie.service"; // For confirmDialog method
+import { Tooltip } from 'primereact/tooltip';
 
 
 export default function categorie() {
@@ -192,7 +193,6 @@ export default function categorie() {
         /*
             event.date_evenement = new Date(event.date_evenement);
             event.date_limite = new Date(event.date_limite);
-
         */
         setValue(categ);
         setVisible(true);
@@ -243,8 +243,8 @@ export default function categorie() {
 
         return (
             <>
-                <Button icon="pi pi-pencil" onClick={() =>editCategotie(rowData)} rounded text />
-                <Button icon="pi pi-trash" onClick={()=>confirmDelete(rowData)} rounded text severity="danger" />
+                <Button icon="pi pi-pencil" onClick={() =>editCategotie(rowData)} rounded text tooltip="Modifier" tooltipOptions={{ position: 'top' }}/>
+                <Button icon="pi pi-trash" onClick={()=>confirmDelete(rowData)} rounded text severity="danger" tooltip="Supprimer" tooltipOptions={{ position: 'top' }}/>
             </>
         );
     };
@@ -271,15 +271,19 @@ export default function categorie() {
                                 <div className="row">
                                     <Card>
                                         <div className="row">
-                                            <span className="col-4">
+                                            <span className="col-3">
                                                 <b>Evènement :</b>{evenement.libelle}
                                             </span>
-                                            <span className="col-4">
+                                            <span className="col-3">
                                                 <b>Nombre de place :</b>{evenement.nbplace}
                                             </span>
 
-                                            <span className="col-4">
-                                                <b>Date de modification :</b>{ format(new Date(evenement.updatedAt), "dd/MM/yyyy à HH:mm", { locale: fr })}
+                                            {/*<span className="col-3">
+                                                <b>Date :</b>{format(new Date(evenement.date_evenement), "dd/MM/yyyy à HH:mm", {locale: fr})}
+                                            </span>*/}
+
+                                            <span className="col-3">
+                                                <b>Statut :</b>{evenement.statut}
                                             </span>
 
                                         </div>
@@ -289,7 +293,7 @@ export default function categorie() {
                                 </div>
 
                                 <div className="row mt-2">
-                                    <div className="col-sm-5">
+                                <div className="col-sm-5">
                                             <Button className="mb-2" label="Nouvelle catégorie" icon="pi pi-plus" iconPos="right" onClick={() => {setVisible(true);setValue(category);setIsUpdating(false)}} />
                                     </div>
                                 </div>
