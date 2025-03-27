@@ -41,16 +41,18 @@ services:
       ports:
       - "1337:1337"
       #command: sails new restapi --no-frontend
-      #command: sails lift --hookTimeout=80000
+      command: sails lift --hookTimeout=80000
       #command: nodemon -L app.js --ignore node_modules --ignore .tmp
-      command: node app.js
+      #command: node app.js
       #command: npm install
 
-  # nextjs:
-  #   volumes:
-  #     - ./frontend:/app
-  #   working_dir: /app
-  #   image: nextjs
-  #   ports:
-  #   - "3000:3000"
-  #   command: npx create-next-app@latest
+  frontapp:
+      volumes:
+        - ./front:/app
+        - /app/node_modules
+      working_dir: /app
+      image: frontapp
+      ports:
+      - "4100:4100"
+
+      command: npm run dev

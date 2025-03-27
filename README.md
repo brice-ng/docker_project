@@ -19,3 +19,7 @@ Liste des tâches à réaliser en frontend (Nextjs):
 - [x] Interface de gestion des catégories de billet
 - [x] Interface d'achat de billet en ligne
 - [x] implémentation des websockets (mise à jour en temps réel des réservations)
+
+
+
+
