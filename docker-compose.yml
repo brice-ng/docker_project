@@ -27,11 +27,11 @@ services:
 
   sails:
     build:
-      context: .
+      context: ./restapi
     volumes:
       - ./restapi:/app
     working_dir: /app
-    image: sails:l3mn
+    image: sails
 
     depends_on:
       - db
@@ -50,7 +50,7 @@ services:
 
   frontapp:
     build:
-      context: .
+      context: ./front
     volumes:
       - ./front:/app
       - /app/node_modules

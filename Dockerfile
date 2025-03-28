@@ -11,5 +11,6 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY ./restapi/package*.json ./
 
+# Installe les dépendances Node.js, y compris Puppeteer et Chromium
 RUN npm install
 
