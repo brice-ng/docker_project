@@ -50,7 +50,7 @@ services:
 
   frontapp:
     build:
-      context: ./front
+      context: .
     volumes:
       - ./front:/app
       - /app/node_modules
