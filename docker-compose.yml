@@ -27,7 +27,7 @@ services:
 
   sails:
     build:
-      context: ./restapi
+      context: .
     volumes:
       - ./restapi:/app
     working_dir: /app
