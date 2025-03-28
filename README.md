@@ -25,12 +25,17 @@ Liste des tâches à réaliser en frontend (Nextjs):
 
 ## Comment le déployer
 
-# Dans le repertoire ./restapi
+### Dans le repertoire ./restapi
+```bash
 docker build -t sails:l3mn .
+```
 
-# Dans le repertoire ./front
+### Dans le repertoire ./front
+```bash
 docker build -t frontapp .
+```
+### Dans le repertoire princiapal 
 
-# Dans le repertoire princiapal 
-
+```bash
 docker-compose up
+```
